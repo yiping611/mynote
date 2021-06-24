@@ -1,2 +1,234 @@
-# mynote
-come on
+# 节流和防抖实现方法（以及他们得使用场景）
+### 概念
+* 函数节流：频繁触发，但只在特定的时间内才执行一次代码
+* 函数防抖：频繁触犯，但只在特定的时间内没有触发执行条件执行一次代码
+两者区别在于： 
+ * 函数节流 ：是固定时间做某一件事，比如每隔1s发一次请求
+ * 函数节流：事频繁触发后，只执行一次（比如在1s内未触发，1s后触发）
+ 两者前提都是频繁触发
+ #### 函数节流和函数防抖得目的
+ 防止由于浏览器中某些事件频繁触发，因而频繁操作DOM，资源加载的行为，导致ui停顿甚至浏览器崩溃，影响浏览器性能。
+ ### 函数节流
+ **函数节流应用场景**
+ * 一般是onresize(onresize 事件会在窗口或框架被调整大小时发生。)，
+ * onscroll等这些频繁触发得函数，比如想获取滚动条的位置，然后执行下一步操作,
+ * 高频点击提交，表单重复提交，
+ * 谷歌搜索框，搜索联想功能
+ ``` 
+//限制500ms执行一次 =>多少秒执行一次
+var type=false
+window.onscroll=function(){
+    if(type===true)return
+    type=true
+    setTimeout(()=>{
+        console.log('要执行的事');
+        type=false;
+    },500)
+}
+ ```
+ 如果监听执行的是DOM操作，这样频繁触发执行，会影响到浏览器性能，所以可以规定**多少秒执行一次** 这种方法叫做函数节流
+ ### 函数防抖
+ **函数防抖应用场景** 
+ * 一般是输入框搜索只需要用户最后一次输入完，在发送请求，
+ * 手机号、邮箱验证输入检测，
+ * 窗口大小resize ,只需要窗口调整完后计算窗口大小，防止重复渲染
+ * 高频操作点赞和取消点赞（高频点赞和取消赞，需要获取最后一次操作结果并发送给服务器）
+ ```
+ //500ms内无操作后执行事件
+ var timer=null;
+ function click(){
+     clearTimeout(timer);
+     timer=setTimeout(()=>{
+         ajax(...)
+     },500)
+ }
+ ```
+ **多少秒内未操作后执行**
+ 点赞取消赞实现原理：如果在500ms内频繁操作点赞或者取消赞，则每次都会清除一次定时器，然后重新创建一个，直到最后一次操作点赞或者取消赞，然后等待500ms后发送ajax
+
+ ###防抖 =》代码实现
+  场景：用于多次点击登录按钮，那么久会多次频繁的发送网络请求给后端，希望用户多次频率特别高的点击重，只会触发最后一次，这次用到了防抖
+  ```
+  let btn=document.querySelector('.btn');
+  function debouce(fn,delay){
+      let timeout=null;
+      return function(){
+          clearTimeout(timeout);
+          timeout=setTimeout(()=>{fn()},delay)
+      }
+  }
+  function show(){
+      console.log('执行了')
+  }
+  btn.addEventListener('click',debounce(show,2000))
+  ```
+  在这里 实现了一个简易的节流函数 可以看到 是使用了闭包的 这里debounce函数是直接被调用的 返回了一个匿名函数 从而有了闭包的存在 当我第一次点击的时候 这时候timeout是空的 所以clearTimeout没有清除任何定时器 当我第二次点击的时候 此时已经有定时器了 那么之前的第一个定时器就会被清除 重新去设置了一个定时器 如果用户频繁的点击的话(频率在2000毫秒内) 就会每次都去清除之前的定时器 然后重新设置一个定时器 直到用户停止点击(或是在2000毫秒之后点击) 那么这个fn函数才会被触发 也就是在用户停止点击2000毫秒后这个fn函数才会被触发 我们可以在这里去发起网络请求
+  #### 存在问题
+  1. this指向问题
+  实际上在btn.addEventListener() 这个监听中第二个参数是一个函数，会在触发比如这里是click事件时候执行这个函数，函数this得指向是这个元素
+  ```
+  btn.addEventListener('click',function(){
+      console.log(this);//btn 
+
+  })
+  ```
+  但是在**fn函数中**this得指向是window
+  ```
+  function show(){
+      console.log(this) //window
+  }
+  ```
+  ##### 解决方案
+  改变fn函数this得指向
+  ```
+  let btn = document.querySelector('.btn');
+function debounce(fn, delay){
+    let timeout = null;
+    // 返回的这个函数的this指向就是 btn这个按钮 
+    return function(){
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+        // 在这里 我直接绑定的this 是因为我使用的是箭头函数的方式 所以箭头函数的this就是它别定义的上下文
+            fn.apply(this)
+        }, delay);
+        
+    }
+}
+function show(){
+    console.log(1);
+}
+btn.addEventListener('click', debounce(show, 2000));
+
+/*
+如果不理解 也可以使用这种方式 
+function debounce(fn, delay){
+    let timeout = null;
+    // 返回的这个函数的this指向就是 btn这个按钮 
+    return function(){
+        const that = this;
+        clearTimeout(timeout);
+        timeout = setTimeout(function(){
+        // 这里 没有使用箭头函数的方式 所以这里我要讲返回的那个函数的this给记录下来 然后在这里去进行一个绑定
+            fn.apply(that);
+        }, delay)
+        
+    }
+}
+*/
+
+  ```
+  2.事件对象event的问题
+  实际上在btn.addEventListener()这个监听中 第二个参数是一个函数 会在触发比如这里是click事件的时候去执行这个函数 函数中会有一个默认的参数event事件对象
+  ```
+  btn.addEventListener('click', function(e){
+    console.log(e)
+    console.log(this);
+    // <button class="btn">按钮</button>
+})
+
+  ```
+  大家可以自行的打印一下 是一个event对象 里面还包含挺多东西的 但是在我们要当点击后执行的fn函数中 是没有这个event事件对象的 打印出来的是 undefined
+  ```
+  function show(e){
+    console.log(this);
+    // window
+    console.log(e);
+    // undefined
+    console.log(1);
+}
+
+  ```
+  ##### 解决方案 将 event 对象传入fn函数中
+  ```
+  let btn = document.querySelector('.btn');
+function debounce(fn, delay){
+    let timeout = null;
+    return function(){
+    // 获取这个返回函数的参数 也就是event对象
+    let args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            fn.apply(this, args);
+        }, delay);
+    }
+}
+function show(){
+    console.log(1);
+}
+btn.addEventListener('click', debounce(show, 2000));
+
+  ```
+#### 代码实现-增加一个功能
+在这里 我们是点击了过了delay毫秒之后再去执行这个函数 那么现在我想的是 我不仅可以实现过了delay毫秒后去执行 还可以实现的一个功能是点击后立即执行 最后一次点击不会执行 你想用哪种方式都可以
+解决思路 我们可以往节流函数 debounce函数中再去传入一个参数bool值 让你自己传入true/fasle 去选择你要的一个模式
+```
+let btn = document.querySelector('.btn');
+function debounce(fn, delay, bool){
+    let timeout = null;
+    return function(){
+        const args = arguments;
+        clearTimeout(timeout);
+        if(bool) {
+            if(!timeout) {
+                fn.apply(this, args);
+            }
+            timeout = setTimeout(() => { timeout = null}, delay);
+            
+        }else {
+            timeout = setTimeout(() => {
+                fn.apply(this, args);
+            }, delay);
+        }
+        
+    }
+}
+function show(){
+    console.log(1);
+}
+btn.addEventListener('click', debounce(show, 2000, true));
+
+```
+总结：
+两种模式的切换 一个是点击后当有频繁点击的时候 会在最后一次点击后 过了 delay毫秒之后执行 一个是点击后立即执行后面你再频繁点击后 都不会执行 直到最后一次频繁点击后 过了delay毫秒后再次点击 才会又重复这个过程  可以看代码自己好好体会下
+### 节流
+代码实现
+这里就不写上面那些存在的问题了 其实都是一样的问题 上面已经解决了 这里就直接写代码的实现了
+代码实现-1 时间戳的方式
+```
+function throttle(fn, delay, bool){
+    let  previous = 0;
+    return function(){
+        let now = new Date().valueOf();
+        if(now - previous > delay){
+            fn.apply(this, arguments);
+            previous = now;
+        }
+    }
+}
+```
+
+这里 当用户频繁点击的时候 只会在规定的delay时间内触发一次 过了delay时候 再触发 一直重复
+代码实现2- 定时器的方式
+```
+function throttle(fn, delay, bool){
+    let timeout = null;
+    return function(){
+        let args = arguments;
+        if(!timeout){
+            timeout = setTimeout(() => {
+                timeout = null;
+                fn.apply(this, args);
+            }, delay)
+        }
+    }
+}
+```
+
+这里 是当用户频繁点击后 会在规定的delay时间里 最后一次会触发
+节流和防抖函数的区别
+当用户频繁点击的时候 防抖函数是会在用户的最后一次点击后的delay时间后触发 而节流函数是会无论用户怎么频繁点击 都会在规定的delay时间内去触发一次
+
+
+
+
+
