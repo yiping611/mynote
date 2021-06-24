@@ -1,0 +1,1 @@
+# call()、apply()、bind() 的用法
