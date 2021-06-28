@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>箭头函数 this 描述的探究</title>
+</head>
+<body>
+    
+   <script>
+     
+function outer(){ 
+    var inner = function(){
+        var obj = {};
+        obj.getVal=()=>{
+            console.log(this,'getVal');//f outer(){}  
+        }
+        console.log(this,'inner');//f outer(){}
+        return obj;
+    };
+    console.log(this,'outer');//window
+    return inner; 
+}
+var  aa=outer()()
+console.log(outer(),'aa')//f (){} inner闭包函数
+outer().bind(outer)().getVal();
+ // 闭包函数的 inner 也是一个普通函数，仍然遵循 [谁调用，指向谁]，这里没有直接调用对象，而是最外层的“省略的” window 调用的，所以 inner 的 this 是指向 window 的。=》闭包
+
+
+    //          var flag='996'
+    //   function persons(fg){
+    //       let o=new Object()
+    //       o.flag=fg
+    //       o.getval=()=>{
+    //           console.log(this,'箭头函数里的this')//persons{a:1}
+    //       }
+    //       this.a=1
+    //       console.log(this,'a后面的打印')//persons{a:1}
+    //       return o
+    //   }
+    //   let pp=new persons('251')
+    //   console.log(pp,'pp实列')//{flag: "251", getval: ƒ} 
+    //   pp.getval()
+//        var flag='996'
+// function person(fg){//创建对象的方式是：工厂模式创建对象
+//     let o=new Object()
+//     o.flag=fg
+//     o.getval=function(){
+//         console.log(this,'getval')//{flag: "251", getval: ƒ} "getval"
+//     }
+//     console.log(this,'person')//person {} "person"
+//     // console.log(this,'person') 在pp.getval()未调用之前就已经打印了
+//     return o
+// }
+// let pp=new person('251');
+// pp.getval()
+      // 箭头函数 ：函数体内的this对象，就是定义时所在得对象，而不是使用时所在的对象
+      //this对象得指向时可变的，但是在箭头函数中，它是固定得
+    //   变量提升得问题 匿名函数 闭包 
+    //1 箭头函数this 指向问题
+    //    var flag='996'
+    //    function persons(fg){
+    //        let o=new Object()
+    //        o.flag=fg
+    //        console.log(this,'persons里的this')//this指向persons
+    //        o.getval=()=>{
+    //            console.log(this,'箭头函数里的this')//this指向persons
+    //        }
+    //        return o
+    //    }
+    //    let pp=new persons('251')
+    //    console.log(pp,'pp实列')
+    //    pp.getval()
+
+    //2
+    // 创建对象得几种方式，
+    // var flag='996'
+    //    function persons(fg){
+    //        let o=new Object()//工厂模式创建对象
+    //        o.flag=fg
+    //        o.getval=()=>{
+    //            console.log(this,'箭头函数里的this')//this指向persons
+    //        }
+    //        this.a=1
+    //        console.log(this,'a后面的打印')
+    //        return o
+    //    }
+    //    console.log(persons,'persons函数')
+    //    let pp=new persons('251')
+    //    console.log(pp,'pp实列')
+    //    pp.getval()
+    //3 o 返回为非对象的时候
+    // var flag='996'
+    //    function persons(fg){
+    //        let o=true
+    //        this.b=fg
+    //        return o
+    //    }
+    //    let pp=new persons('251')
+    //    console.log(pp,'pp实列')//返回persons:{b:'251'}
+
+   </script> 
+</body>
+</html>
