@@ -9,22 +9,64 @@
 <body>
     
    <script>
-     
-function outer(){ 
-    var inner = function(){
-        var obj = {};
-        obj.getVal=()=>{
-            console.log(this,'getVal');//f outer(){}  
-        }
-        console.log(this,'inner');//f outer(){}
-        return obj;
-    };
-    console.log(this,'outer');//window
-    return inner; 
-}
-var  aa=outer()()
-console.log(outer(),'aa')//f (){} inner闭包函数
-outer().bind(outer)().getVal();
+  
+//        var fn=function(a){
+//      console.log(a)//2
+//  }(34)//如果将匿名函数放入到表达式中并且后面加上小括号会自动执行这个函数。
+
+//        function fn(a,b){
+//     console.log(a)
+//     console.log(b)
+
+//     var b=10
+//     function a(){}
+//     return 0
+// }
+// new fn(1,2)
+// fn(1,2)
+//        console.log(a,'a')
+// console.log(b,'b')
+// fn1()
+// fn2()
+// var a=1
+// console.log(a,'aa')
+// b=2
+// function fn1(){
+//     console.log(1)
+// }
+// var fn2=function(){
+//     console.log(2)
+// }
+    //  console.log(a)//f a(){console.log(4)} 
+    //  var a=1
+    //  console.log(a)//1
+    //  function a(){
+    //      console.log(2)
+    //  }
+    //  console.log(a)//1
+    //  var a=3
+    //  console.log(a)//3
+    //  function a(){
+    //      console.log(4)
+    //  }
+    //  console.log(a)//3
+    //  a()
+
+// function outer(){ 
+//     var inner = function(){
+//         var obj = {};
+//         obj.getVal=()=>{
+//             console.log(this,'getVal');//f outer(){}  
+//         }
+//         console.log(this,'inner');//f outer(){}
+//         return obj;
+//     };
+//     console.log(this,'outer');//window
+//     return inner; 
+// }
+// var  aa=outer()()
+// console.log(outer(),'aa')//f (){} inner闭包函数
+// outer().bind(outer)().getVal();
  // 闭包函数的 inner 也是一个普通函数，仍然遵循 [谁调用，指向谁]，这里没有直接调用对象，而是最外层的“省略的” window 调用的，所以 inner 的 this 是指向 window 的。=》闭包
 
 

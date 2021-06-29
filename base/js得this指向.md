@@ -149,11 +149,17 @@ function person(fg){//创建对象的方式是：工厂模式创建对象=》创
         console.log(this,'getval')//{flag: "251", getval: ƒ} "getval"
     }
     console.log(this,'person')//person {} "person"
-    //console.log(this,'person')在pp.getval()执行前就已经执行了 =>预解析
+    //console.log(this,'person')在pp.getval()执行前就已经执行了(new person('251')构造函数第四步执行构造函数内的代码执行打印) =>预解析
     return o
 }
 let pp=new person('251');
 pp.getval()
+
+在构造函数时 new做的四件事情
+1. 新建一个对象
+2.把this的指向指向这个对象
+3.执行构造函数内的代码
+4.返回这个新对象
 ```
 > let pp =new person('251')
 > 这里创建了一个person实列pp，然后执行pp.getval()
