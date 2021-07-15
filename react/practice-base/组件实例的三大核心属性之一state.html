@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hellow-react</title>
+</head>
+<body>
+    <button id="btn1">按钮1</button>
+    <button id="btn2">按钮2</button>
+    <button id="btn3" onclick="demo()">按钮3</button>
+    <!-- 准备一个容器 -->
+    <div id="test"></div>
+    <!-- 1.引入react核心库 React  -->
+    <script type="text/javascript" src="../practice-base/js/react.development.js"></script>
+    <!-- 2.引入react-dom用于支持react操作dom   ReactDom -->
+    <script type="text/javascript" src="../practice-base/js/react-dom.development.js"></script>
+    <!-- 3.引入babel用于将jsx转换为js -->
+    <script type="text/javascript" src="../practice-base/js/babel.min.js"></script>
+    <script type="text/babel">//此处写的是type="text/babel"
+    //    1.创建组件
+     class Weather extends React.Component{
+        //  构造器调用一次 this.xx必须写在构造器中
+         constructor(props){
+             console.log('constructor')
+             super(props)
+            //  初始化状态
+             this.state={isHot:true,wind:'微风'}//为什么叫state=>也可以起其他合法的命名，但是状态更改是用原型上的setState方法且只能改state对象里的值，对应关系
+             this.changeWeath=this.changeWeath.bind(this)//添加该方法的实例对象，onClick={this.changeWeath} 此时是在自身的，非原型上的方法
+         }
+         // render 调用1+n次（1是初始化一次，n是状态更新的次数，所以是n+1次）
+          render(){
+              console.log(this,'renderthis12')//Weather实例对象
+            //   读取状态
+              const {isHot,wind}=this.state
+              return <h1 id="title" onClick={this.changeWeath}>今天天气很{isHot?'炎热':'凉爽'}{wind}</h1>
+            //   <h1 id="title" onClick={this.changeWeath}>今天天气很{isHot?'炎热':'凉爽'}</h1> 并不是通过Weather实列调用的，this.changeWeath并未调用，只是赋值给了onClick
+          }
+          changeWeath(){
+            //   changeWeath放在Weather原型上
+            // 通过weather实例调用changeWeath，changeWeath中的this指向Weather实列
+            //<h1 id="title" onClick={this.changeWeath}>今天天气很{isHot?'炎热':'凉爽'}</h1>  由于changeWeath是作为onClick回调，而不是通过实例调用的，是直接调用，
+            // 类中的方法，默认开启了局部的严格模式，所以changeWeath中的this为underfined
+            console.log(this,'title')//bind 指定了this的指向为Weather
+            // 状态不可直接更改，要借助一个内置的API去更改
+            // this.state.isHot=!this.state.isHot  错误做法
+            // z状态必须通过setState进行更改，且是更新是一种合并，不是替换，同名的直接覆盖掉
+             this.setState({isHot:!this.state.isHot})
+             console.log(this.state,'微风')
+          }
+     }
+    // 渲染组件
+    ReactDOM.render(<Weather/>,document.getElementById('test'))
+   
+   
+    </script>
+    <!-- ................................................................. -->
+    <script type="text/javascript">
+    // 原生事件的绑定三种方式
+    const btn1=document.getElementById('btn1')//react中反复操作document
+    btn1.addEventListener('click',()=>{
+        alert('按钮1点击了')
+    })
+    const btn2=document.getElementById('btn2')//react中反复操作document
+    btn2.onclick=()=>{
+        alert('按钮2点击了')
+    }
+    function demo(){//react 中使用该方法
+        alert('按钮3 被点击了')
+    }
+    
+    </script>
+     <!-- ................................................................. -->
+     <script type="text/javascript">
+    //  es6=> js类中this指向问题
+      class Person{
+          constructor(name,age){
+              this.name=name
+              this.age=age
+          }
+          study(){
+            //   study方法放在类的原型对象上，供实例使用
+            //   通过Person实例调用study，study中的this指向Person实列
+            console.log(this,'js中类的指向-speak')
+          }
+      }
+      const p1=new Person('TOM',18)
+      p1.study()//通过实例调用speak  study中的this指向Person实列
+      const x=p1.study
+      x()//   console.log(this,'js中类的指向-speak') 中的this undefined（为什么不是window=>，类中所有方法都在局部开启了严格模式（use strict））
+     </script> 
+</body>
+</html>

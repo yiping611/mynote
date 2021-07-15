@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hellow-react</title>
+</head>
+<body>
+    <div id="test"></div>
+    <script type="text/javascript" src="../practice-base/js/react.development.js"></script>
+    <script type="text/javascript" src="../practice-base/js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../practice-base/js/babel.min.js"></script>
+    <script type="text/babel">
+    // #region
+    /*
+         高阶函数：如果一个函数符合下面2哥规范中得任何一个，那该函数就是高阶函数
+           1.若a函数，接收得参数是一个函数，那么A就可以称之为高阶函数
+           2.若A函数调用的返回值仍是一个函数，那么A就可以称之为高阶函数 setTimeout
+           常用得高阶函数有：Promise,  setTimeout ,arr.map
+        函数得柯里化：通过函数调用继续返回函数得方式，实现多次接收参数最后统一处理函数编码形式
+    */
+//    #endregion
+         class Login extends React.Component{
+             state={
+                 username:'',
+                 password:''
+             }
+            hanleSubmit=(e)=>{
+                 e.preventDefault()
+                 const {username,password}=this.state
+                 alert(`输入用户名${username},密码${password}`)
+              
+            }
+            savedata=(data)=>{
+              return (e)=>{  //该函数就用到函数柯里化 
+                  console.log([data],'datas')
+             this.setState({[data]:e.target.value})
+              }
+            }
+            savedata1=(data,e)=>{//不用函数柯里化
+                console.log([data],'datas')
+             this.setState({[data]:e.target.value})
+            }
+             render(){
+                 return (
+                     <form  onSubmit={this.hanleSubmit}>
+                        用户名：<input onChange={this.savedata('username')}  type="text" name="username" />
+                        {/*  不用柯里化 */}
+                        {/* 用户名：<input onChange={(e)=>this.savedata('username',e)}  type="text" name="username" />*/}
+                        密码： <input  onChange={this.savedata('password')}  type="password" password="password" />
+                         <button>登录</button>
+                     </form>
+                 )
+             }
+         }
+        ReactDOM.render(<Login/>,document.getElementById('test'))
+        </script>
+        <!-- 对象相关知识 ...................................................................... -->
+        <script type="text/javascript">
+         let a='tome'
+         var obj={
+             ['shenme']:'zhege'
+         }
+         obj[a]='jerry'
+          obj.a='shazi'
+          console.log(obj,'obj')//{shenme: "zhege", tome: "jerry", a: "shazi"} 
+        </script>
+        <!--函数得柯里化 ............................................................................ -->
+        <script type="text/javascript">
+        function sum(a) {
+           return(b)=>{
+               return(c)=>{
+                   return a+b+c
+               }
+           }
+        }
+        const result=sum(1)(2)(3)
+        </script>
+</body>
+</html>

@@ -4,11 +4,56 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>箭头函数 this 描述的探究</title>
+    <title></title>
 </head>
 <body>
     
    <script>
+    //    **代码形式为obj1 instanceof obj2（obj1是否是obj2的实例）**
+    // obj2能否生成obj1,或者说是obj2.constructor有没有obj1.__proto__
+    //{}.__proto__===Object.prototype   ,Array.prototype.__proto__
+   console.log( {}.__proto__.__proto__,'{}.__proto__')//null 
+   console.log(Object.prototype.__proto__,'Object.prototype.__proto__')//null
+   console.log({},"{}.prototype.__proto__")
+   //obj1 原型链上是否是Obj2.prototype.__proto
+     console.log([] instanceof Object,"[] instanceof Object")//true
+     console.log({} instanceof Object,{}.__proto__,'{} instanceof Object')//true
+     console.log({} instanceof Array,'{} instanceof Array')//false
+     //{}.__proto__   array.prototype
+    //   function instanceoffn(A,B){//A.proptotype 是否存在于B 原型链上
+    //      var L=A.__proto__  
+    //      var R=B.prototype  
+    //      if(L===R){
+    //          return true
+    //      }else{
+    //          return false
+    //      }
+    //    }
+    //  var arr1=[]
+    //  var obj1={}
+    //   console.log(instanceoffn({},[]),"{}是[]得实列吗：模拟")//{}.__proto__===[].prototype false 
+    //   console.log(instanceoffn([],Object),"[]是Object得实列吗:模拟")//[].__proto__===Object.prototype
+    //   console.log(instanceoffn([],Object),"[]是Object得实列吗:模拟")//[].__proto__===Object.prototype
+    //   console.log([] instanceof Object,'[] instanceof Object,')//true 
+    //   console.log({} instanceof Array,'{} instanceof Array,')//false =>{}.__proto__===Object
+    //    var a = [34,4,3,54],
+    //     b = 34,
+    //     c = 'adsfas',
+    //     d = function(){console.log('我是函数')},
+    //     e = true,
+    //     f = null,
+    //     g;
+
+    //     console.log(typeof(a));//object
+    //     console.log(typeof(b));//number
+    //     console.log(typeof(c));//string
+    //     console.log(typeof(d));//function
+    //     console.log(typeof(e));//boolean
+    //     console.log(typeof(f));//object
+    //     console.log(typeof(g));//undefined
+    //     console.log(typeof([]),'[]')
+    //     let s=Symbol()
+    //     console.log(typeof(s),'symbol')
   
 //        var fn=function(a){
 //      console.log(a)//2

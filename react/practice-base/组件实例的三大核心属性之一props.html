@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hellow-react</title>
+</head>
+<body>
+   
+    <div id="test"></div>
+    <div id="test1"></div>
+    <div id="test2"></div>
+    <div id="test3"></div>
+    <div id="test4"></div>
+    <!-- 全局多了个React -->
+    <script type="text/javascript" src="../practice-base/js/react.development.js"></script>
+    <!-- 全局多了个ReactDom -->
+    <script type="text/javascript" src="../practice-base/js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../practice-base/js/babel.min.js"></script>
+    <!--  全局多了个PropTypes -->
+    <script type="text/javascript" src="../practice-base/js/prop-types.js"></script>
+    <!-- 引入prop-types用于对组件标签属性进行限制 -->
+    <script type="text/babel">
+     class Person extends React.Component{
+         state={name:'tom',age:18,sex:'女'}
+         render(){
+             /*
+               注意事项:
+                  props是只读的属性=》  this.props.name='jack'//报错
+                  可以参与运算[(this.props.sex+1)]，不可以重新赋值[this.props.sex=12]
+             */
+             return (
+                 <ul>
+                   <li>{this.props.name}</li>
+                   <li>{this.props.age}</li>
+                   <li>{this.props.sex}</li>
+                 </ul>
+             )
+         }
+     }
+     ReactDOM.render(<Person name="tom" age="18" sex="女" />,document.getElementById('test'))
+    //  <Person name="tom" age="18" sex="女" />   name="tom" age="18" sex="女"存到了props对象中
+     ReactDOM.render(<Person name="tom1" age={181} sex="女1" />,document.getElementById('test1'))
+     const p={name:'jerry',age:19,sex:'男'}
+       //  展开运算符展开对象时候可以在标签里使用，<Person {...p} />  
+     ReactDOM.render(<Person {...p} />,document.getElementById('test2'))//test1写法的一种语法糖
+     ReactDOM.render(<Person name={p.name} age={p.age} sex={p.sex} />,document.getElementById('test3'))
+    // 对传递标签的属性类型的限制，以及必传的属性进行限制
+    //  React 有一个内置对象PropTypes（15版本） [React.ProtoTypes]  =>16版本引入prop-types.js ,全局对象，PropTypes
+    Person.propTypes={//要写在 ReactDOM.render 渲染之前否则不起效果
+        name:PropTypes.string.isRequired,//字符串类型且必传
+        sex:PropTypes.string,//限制未字符串
+        age:PropTypes.number,//限制未数值
+        speak:PropTypes.func//限制为函数
+    }
+    Person.defaultProps={//指定默认的标签属性值
+         sex:'不男不女',
+         age:18
+    }
+    // 16版本 专门用于对标签属性进行限制的prop-types.js 
+    const pp={name:'jerry',age:19,sex:'男'}
+    ReactDOM.render(<Person name={pp.name} age={pp.age} sex={pp.sex} speak={speak} />,document.getElementById('test4'))
+    function speak(){
+       console.log('我说话了')
+    }
+   
+    </script>
+    <script type="text/javascript">
+    // 展开运算符 ...   reduce  es6  =》https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Spread_syntax
+    // 展开运算符不能直接展开对象，若想展开对象可{...obj}相当于拷贝
+    
+     
+    </script>
+   
+</body>
+</html>

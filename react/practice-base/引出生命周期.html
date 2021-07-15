@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hellow-react</title>
+</head>
+<body>
+    <div id="test"></div>
+    <script type="text/javascript" src="../practice-base/js/react.development.js"></script>
+    <script type="text/javascript" src="../practice-base/js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../practice-base/js/babel.min.js"></script>
+    <script type="text/babel">
+    // 生命周期回调函数<=>生命周期钩子函数<=>生命周期函数<=>生命周期钩子
+    class Life extends React.Component{
+        state={opacity:1}
+        death=()=>{
+          
+            ReactDOM.unmountComponentAtNode(document.getElementById('test')) //卸载组件
+        }
+        action=()=>{
+              setInterval(()=>{//这种方式必须触发才可以 //定时器放在这使得render 多次调用（状态每隔200就改变状态，render就调用一次）
+                let {opacity}=this.state
+                  opacity -= 0.1
+                if(opacity<=0) opacity=1
+                this.setState({opacity})
+            },200)
+        }
+     
+        //render 调用得时机:初始化渲染,状态更新更新之后调用
+        render(){ //render n+1 次，只要状态改变就会调用render  n就是状态改变 render 调用的次数
+            // setInterval(()=>{ //定时器放在这使得render 多次调用（状态每隔200就改变状态，render就调用一次）,//调用次数逐渐增多大爆炸
+            
+            //     let {opacity}=this.state
+            //       opacity -= 0.1
+            //     if(opacity<=0)opacity=1
+            //     this.setState({opacity})
+            // },200)
+            // console.log('调用了')
+            return(
+                <div>
+                    <h1 style={{opacity:this.state.opacity}}>react学的咋样了</h1>
+                    <button onClick={this.death}>吼叫</button>
+                    <button onClick={this.action}>开始变化</button>
+                </div>
+            )
+        }
+        componentDidMount(){//组件挂载完成调用
+            // console.log('@s')
+            this.timr=setInterval(()=>{ //一挂载就调用定时器
+                let {opacity}=this.state
+                  opacity -= 0.1
+                if(opacity<=0) opacity=1
+                this.setState({opacity})
+            },200)
+         
+        }
+        componentWillUnmount(){ // 组件将要卸载时候调用
+            console.log('即将卸载')
+            //清除定时器
+            clearInterval( this.timr)
+        }
+    }
+    ReactDOM.render(<Life/>,document.getElementById('test'))
+    </script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hellow-react</title>
+</head>
+<body>
+    <div id="test"></div>
+    <script type="text/javascript" src="../practice-base/js/react.development.js"></script>
+    <script type="text/javascript" src="../practice-base/js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../practice-base/js/babel.min.js"></script>
+    <script type="text/babel">
+       class Demo extends React.Component{
+           
+        state={ishot:false}
+           showData=()=>{
+               console.log(this.input1,'this.refs.input1')//真实的DOM
+            alert(this.input1.value)
+           }
+           showData2=()=>{
+            alert(this.input2.value)
+           }
+           changeWeather=()=>{
+               const {ishot}=this.state
+               this.setState({ishot:!ishot})
+           }
+           saveinput=(refval)=>{//class得绑定函数得方式定义
+            this.input1=refval
+            console.log('class',refval)
+           }
+           render(){
+                return (
+                    <div>
+                        <h1>{this.state.ishot?'热':'冷'}</h1>
+                        {/* ref回调函数 ：内联函数得方式定义 */}
+                        {/*<input ref={refval=>{this.input1=refval; console.log(refval,'@')}} type="text" placeholder="点击按钮显示数据"/>*/}
+                         {/* ref回调函数 ：class得绑定函数得方式定义 */}
+                        <input ref={this.saveinput} type="text" placeholder="点击按钮显示数据"/>
+                        <button ref="button12" onClick={this.showData}>点我显示左边数据</button>
+                        <button ref="button12" onClick={this.changeWeather}>改变天气</button>
+                    </div>
+                )
+           }
+       }
+       /*
+        关于回调refs 的说明
+         1 .如果ref回调函数是以内联函数得方式定义的，在 更新过程（state状态更新） 中它会被执行两次，
+         2.内联函数得方式定义: 第一次传入参数null,然后第二次会传入参数DOM元素，这是因为在每次渲染时会创建一个新的函数实列，
+         所以react 清空旧的ref（之前得函数实列清空） 并且设置新的(函数实列)，
+         3. 通过将ref得回调函数定义为 class得绑定函数得方式 可以避免
+       */
+    ReactDOM.render(<Demo/>,document.getElementById('test'))
+    </script>
+</body>
+</html>

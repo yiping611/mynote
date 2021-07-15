@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hellow-react</title>
+</head>
+<body>
+    <div id="test"></div>
+    <script type="text/javascript" src="../practice-base/js/react.development.js"></script>
+    <script type="text/javascript" src="../practice-base/js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../practice-base/js/babel.min.js"></script>
+    <script type="text/babel">
+       class Demo extends React.Component{
+           showData=()=>{
+              console.log(this.refs.input1,'this.refs.input1')//拿到的并非虚拟dom 而是真实的DOM
+              alert(this.refs.input1.value)
+           }
+           showData2=()=>{
+              console.log(this.refs.input2,'this.refs.input2')//拿到的并非虚拟dom 而是真实的DOM
+              alert(this.refs.input2.value)
+           }
+           render(){
+               console.log(this,'this')
+                return (
+                    <div>
+                        <input ref="input1" type="text" placeholder="点击按钮显示数据"/>
+                        <button ref="button12" onClick={this.showData}>点我显示左边数据</button>
+                        <input type="text" onBlur={this.showData2} ref="input2"   placeholder="失去焦点显示数据"/>
+                    </div>
+                )
+           }
+       }
+    ReactDOM.render(<Demo/>,document.getElementById('test'))
+    </script>
+</body>
+</html>

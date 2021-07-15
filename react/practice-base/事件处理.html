@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hellow-react</title>
+</head>
+<body>
+    <div id="test"></div>
+    <script type="text/javascript" src="../practice-base/js/react.development.js"></script>
+    <script type="text/javascript" src="../practice-base/js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../practice-base/js/babel.min.js"></script>
+    <script type="text/babel">
+       class Demo extends React.Component{
+          /*
+           通过onXxxx属性指定事件处理函数（注意大小写）
+           1.React 使用的是自定义（合成）事件，而不是使用的原生Dom [为了更好得兼容性 react对原生事件都进行了重新封装]
+           2.React中得事件是通过《 事件委托方式 》处理的（委托给组件最外层得元素）【为了高效】 【复习事件委托 ，冒泡 捕捉】
+           通过event.target 得到发生事件得DOM元素对象【不要过度使用ref】
+           
+          */
+           myref=React.createRef()
+           myref2=React.createRef()
+          
+           showData=()=>{
+           console.log(this.myref,'myref')
+           console.log(this.myref.current,'this.myref.current')
+           alert(this.myref.current.value)
+           }
+           showData2=(e)=>{// 通过event.target 得到发生事件得DOM元素对象
+               //e 事件对象  e.target事件源
+               alert(e.target.value)
+             console.log(e.target)
+           }
+          
+         
+           render(){
+                return (
+                    <div>
+
+                        <input ref={this.myref} type="text" placeholder="点击按钮显示数据"/>
+                        <button ref="button12" onClick={this.showData}>点我显示左边数据</button>
+                        <input onBlur={this.showData2} type="text" placeholder="失去焦点显示数据"/>
+                     
+                    </div>
+                )
+           }
+       }
+    ReactDOM.render(<Demo/>,document.getElementById('test'))
+    </script>
+</body>
+</html>

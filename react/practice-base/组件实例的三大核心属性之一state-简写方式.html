@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hellow-react</title>
+</head>
+<body>
+   
+    <div id="test"></div>
+    <script type="text/javascript" src="../practice-base/js/react.development.js"></script>
+    <script type="text/javascript" src="../practice-base/js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../practice-base/js/babel.min.js"></script>
+    <script type="text/babel">
+     class Weather extends React.Component{
+        //  类中可以直接写赋值语句 a=1 ,=>给类添加一个属性
+           state={isHot:true,wind:'微风'}//初始化状态、
+           a={qq:11}
+         
+          render(){
+              const {isHot,wind}=this.state
+              return <h1 id="title" onClick={this.changeWeath}>今天天气很{isHot?'炎热':'凉爽'}{wind}{this.a.qq}</h1>
+             
+          }
+          //自定义方法=要用赋值语句的形式+箭头函数
+          changeWeath=()=>{
+            // this.a.qq=2,//虽然可 以改变值，但是页面并未实时更新，所以状态都写在state里，
+            // this.state.isHot=!this.state.isHot//这种打印虽然可以改变值，但是页面视图并不能实时更新
+             this.setState({isHot:!this.state.isHot})
+          }
+     }
+         
+     ReactDOM.render(<Weather/>,document.getElementById('test'))
+   
+   
+    </script>
+   
+</body>
+</html>

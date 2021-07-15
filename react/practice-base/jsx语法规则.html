@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hellow-react</title>
+    <style>
+        .title{
+            background-color: pink;
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 准备一个容器 -->
+    <div id="test"></div>
+    <!-- 引入库顺序不能乱，核心库=》react-dom=>babel -->
+    <!-- 1.引入react核心库 React  -->
+    <script type="text/javascript" src="../practice-base/js/react.development.js"></script>
+    <!-- 2.引入react-dom用于支持react操作dom   ReactDom -->
+    <script type="text/javascript" src="../practice-base/js/react-dom.development.js"></script>
+    <!-- 3.引入babel用于将jsx转换为js -->
+    <script type="text/javascript" src="../practice-base/js/babel.min.js"></script>
+    <script type="text/babel">//此处写的是type="text/babel"
+    /*
+      一定注意区分js语句和js表达式
+      1.表达式：一个表达式会产生一个值，可以放在任何一个需要值得地方 a,a+b,demo(1),arr.map(),function(){}
+      2.语句：if,for,switch
+      
+    */
+    //   1.创建虚拟DOM,
+       const myid="muds"
+       const shuju="数据变量"
+       const  data=['vue','react','anglar']
+    const VDOM=(
+        <div>
+            <h1 id="hehs" className="title">
+            <span id={myid}>
+              <span>{shuju}</span>
+              <span style={{color:'red',fontSize:'20px'}}>直接写</span>
+            </span>
+        </h1>
+        <input type="text"></input>
+          <Good>若大写字母开头，react 就去渲染对应的组件，若组件没有定义，则报错</Good>
+          <h1>jsx练习</h1>
+          <ul>
+            {
+              data.map((item,index)=>{
+                  return <li key={index}>{item}</li>
+              })
+            }
+          </ul>
+        </div>
+        ) 
+    //   2.渲染虚拟页DOM到页面
+    ReactDOM.render(VDOM,document.getElementById('test'))
+    /*
+    jsx语法规则：
+      1. 定义虚拟DOM树，不要写引号
+      2.标签重混入js表达式时要用{}
+      3.样式得类型指定不要用class ，要用className
+      4.内联样式，要用style={{}}形式写
+      5.虚拟DOM必须只有一个根标签
+      6.标签必须组合
+      7.标签首字母
+           （1）若小写字母开头，则将标签转为html中同名标签，若html中无标签对应的同名元素，则报错
+           （2）若大写字母开头，react 就去渲染对应的组件，若组件没有定义，则报错
+
+    */
+    </script>
+</body>
+</html>

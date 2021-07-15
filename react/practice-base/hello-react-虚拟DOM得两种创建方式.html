@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>创建虚拟DOM</title>
+</head>
+<body>
+    <!-- 准备一个容器 -->
+    <div id="test"></div>
+    <div id="demo"></div>
+    <!-- 引入库顺序不能乱，核心库=》react-dom=>babel -->
+    <!-- 1.引入react核心库 React  -->
+    <script type="text/javascript" src="../practice-base/js/react.development.js"></script>
+    <!-- 2.引入react-dom用于支持react操作dom   ReactDom -->
+    <script type="text/javascript" src="../practice-base/js/react-dom.development.js"></script>
+    <!-- 3.引入babel用于将jsx转换为js ,js创建虚拟dom无需引入babel -->
+    <script type="text/javascript" src="../practice-base/js/babel.min.js"></script>
+    <!-- ................................................................................ -->
+    <!--  1.jsx创建虚拟dom ：jsx创建虚拟dom 简单理解为js创建虚拟DOM得语法糖 -->
+    <script type="text/babel">//此处写的是type="text/babel"
+    //   1.创建虚拟DOM,(1.使用jsx创建虚拟dom,2.使用js创建虚拟dom)
+    // 1.使用jsx  const VDOM=<h1 id="title">hello,react</h1>
+    const VDOM=<h1 id="title">hello,react</h1> //此处不加双引号，因为不是字符串是jsx
+    // const VDOM=(
+    //     <h1 id="jdjei">
+    //         <span>11</span>
+    //     </h1>
+    // ) //可以用()包裹，表示属于整体部分，括号内标签可换行 ，
+    //   2.渲染虚拟页DOM到页面
+    ReactDOM.render(VDOM,document.getElementById('test'))
+  
+    </script>
+  <!-- ................................................................................ -->
+    <!-- 2.使用js创建虚拟dom -->
+    <script type="text/javascript">
+        //   1.创建虚拟DOM,(1.使用jsx创建虚拟dom,2.使用js创建虚拟dom)
+        // document.createElement(标签名，标签属性，标签内容) 创建节点
+        const VDOM=React.createElement("h1",{id:'title'},"hello-ract-js创建方法")
+        // 缺点=》js创建虚拟DOM 繁琐
+        // const VDOM=React.createElement("h1",{id:'title'},React.createElement("span",{},"hello-ract-js创建方法嵌套多span"))
+        //   2.渲染虚拟页DOM到页面
+        ReactDOM.render(VDOM,document.getElementById('test'))
+        
+        </script>
+        <script type="text/javascript">
+        // 真实dom
+         const  TDom=document.getElementById('demo')
+            
+              console.log(VDOM)//就是个js对象
+              console.log(TDom)//打印就是<div id="demo"></div>
+        </script>
+        <!-- 
+            关于虚拟DOM
+            1.本质上就是Object类型得对象(一般对象)
+            2.虚拟dom比较“轻”，真实dom比较重，因为虚拟DOM是react内部在用，无需真实DOM上那么多得属性
+            3.虚拟DOM最终会被react转化为真实DOM，呈现在页面上
+         -->
+</body>
+</html>

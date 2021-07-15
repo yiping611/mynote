@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hellow-react</title>
+</head>
+<body>
+    <div id="test"></div>
+    <script type="text/javascript" src="../practice-base/js/react.development.js"></script>
+    <script type="text/javascript" src="../practice-base/js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../practice-base/js/babel.min.js"></script>
+      <!--非受控组件 ，现用现取 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
+    <!-- <script type="text/babel">//非受控组件 ，现用现取
+    //创建组件
+     class Login extends React.Component{
+        hanleSubmit=(e)=>{
+             e.preventDefault()//阻止表单提交
+            const {username,password}=this
+            alert(`输入用户名${username.value},密码${password.value}`)
+        }
+         render(){
+             return (
+                 <form action="https://www.baidu.com/" onSubmit={this.hanleSubmit}>
+                    用户名：<input ref={c=>this.username=c} type="text" name="username" />
+                    密码： <input ref={c=>this.password=c} type="password" password="password" />
+                     <button>登录</button>
+                 </form>
+             )
+         }
+     }
+    ReactDOM.render(<Login/>,document.getElementById('test'))
+    </script> -->
+    <!--受控组件 ， 维护state 更改state \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
+    <script type="text/babel">//受控组件 ， 维护state 更改state [省掉ref]
+        //创建组件
+         class Login extends React.Component{
+             state={
+                 username:'',
+                 password:''
+             }
+            hanleSubmit=(e)=>{
+                 e.preventDefault()//阻止表单提交
+                 const {username,password}=this.state
+                 alert(`输入用户名${username},密码${password}`)
+              
+            }
+            demo=(e)=>{
+                  this.setState({username:e.target.value})
+            }
+            demo1=(e)=>{
+                  this.setState({password:e.target.value})
+            }
+             render(){
+                 return (
+                     <form  onSubmit={this.hanleSubmit}>
+                        用户名：<input onChange={this.demo}  type="text" name="username" />
+                        密码： <input  onChange={this.demo1}  type="password" password="password" />
+                         <button>登录</button>
+                     </form>
+                 )
+             }
+         }
+        ReactDOM.render(<Login/>,document.getElementById('test'))
+        </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hellow-react</title>
+</head>
+<body>
+    <div id="test"></div>
+    <div id="test1"></div>
+    <!-- 1.引入react核心库 React  -->
+    <script type="text/javascript" src="../practice-base/js/react.development.js"></script>
+    <!-- 2.引入react-dom用于支持react操作dom   ReactDom -->
+    <script type="text/javascript" src="../practice-base/js/react-dom.development.js"></script>
+    <!-- 3.引入babel用于将jsx转换为js -->
+    <script type="text/javascript" src="../practice-base/js/babel.min.js"></script>
+    <script type="text/babel">//此处写的是type="text/babel"
+    //  1.创建函数组件
+              function Mycomponents(){
+                   console.log(this)//此处得this是underfined，因为babel编译后，开启了严格模式
+                   return <h2>我是用函数定义得组件是应用于简单组件得定义</h2>
+               }
+        ReactDOM.render(<Mycomponents/>,document.getElementById('test'))
+        /*
+        执行了 ReactDOM.render(<Mycomponents/>,....)值后发生了什么？
+          1.React解析组件标签，找到了，Mycomponents组件
+          2.发现组件是使用函数定义的，随后调用该函数，将返回的虚拟DOM转为真实DOM，随后呈现页面中
+          */
+     /* ......................................................................................................... */
+    // 2.创建类组件
+        //  1.创建类式组件  继承React.Component
+            class MycomponentsClass extends React.Component{
+                 render(){
+                    //  render 在MycomponentsClass原型对象上，供实例使用
+                    // render中的this指向MycomponentsClass的实列对象《=》MycomponentsClass组件实例对象
+                    console.log(this,'classrender')//MycomponentsClass {props: {…}, context: {…}, refs: {…}, updater: {…}, _reactInternalFiber: FiberNode, …}context: {}props: {}refs: {}state: nullupdater: {isMounted: ƒ, enqueueSetState: ƒ, enqueueReplaceState: ƒ, enqueueForceUpdate: ƒ}_reactInternalFiber: FiberNode {tag: 1, key: null, stateNode: MycomponentsClass, elementType: ƒ, type: ƒ, …}_reactInternalInstance: {_processChildContext: ƒ}[[Prototype]]: Componentconstructor: ƒ MycomponentsClass()render: ƒ render()[[Prototype]]: Object "classrender"
+                     return <h2>我是用类定义得组件是应用于复杂组件得定义Class</h2>
+                 } 
+            }
+        //  2.渲染组件到页面
+        ReactDOM.render(<MycomponentsClass/>,document.getElementById('test1'))
+       /*
+        执行了 ReactDOM.render(<MycomponentsClass/>,....)值后发生了什么？
+          1.React解析组件标签，找到了，MycomponentsClass组件
+          2.发现组件是使用类定义的，随后new出来该类的实例，并通过该实例调用到原型上的render的方法
+          3.将render返回的虚拟DOM转为真实DOM，随后呈现页面中
+          */
+    </script>
+    <!-- es6 中class类 =》知识点 -->
+    <script type="text/javascript">
+    // 创建一个Person类
+     class Person{
+        //  类中可以直接写赋值语句 a=1 ,=>给类添加一个属性
+        
+        //  构造器方法
+        constructor(name,age){
+            // 构造器中得this指向=》 类的实列对象
+            console.log(this,'this')//Person(){...}
+            this.name=name
+            this.age=age
+        }
+        // 一般方法:放在类得原型对象上,供实例使用
+        speak(){
+            // 通过Person实例调用speak时，speak中得this就是person实例
+           console.log(this,'speak')
+        //    通过call apply bind 等方法可以改变this得指向
+            console.log(`我叫${this.name}年龄${this.age}`)
+        }
+        
+     }
+     const p1=new Person('张三',12)
+     const p2=new Person('张无',11)
+     console.log(p1,'p1')//Person {name: "张三", age: 12} "p1"
+     console.log(p2,'p2')//Person {name: "张无", age: 11} "p2"
+     p1.speak()//我叫张三年龄12
+     p2.speak()//我叫张无年龄11
+     p1.speak.call({name:'call',age:99})//我叫call年龄99//通过call改变speak中得this指向
+     class Student extends Person{
+        constructor(name,age,grade){
+              super(name,age)//必须写在最开始位置继承父组类
+              this.grade=grade
+        }
+        speak(){
+            // 重写从父类继承过来的方法
+            console.log(this,'thisstudentspeak')
+            console.log(`我叫${this.name}年龄${this.age}我读得是${this.grade}`)
+            this.study()
+        }
+        study(){
+            console.log(this,'study')
+            // study方法放在类的原型对象上，供实例使用
+            //通过student实例调用study时，speak中的this就是student实例(包括继承过来的)
+            console.log('我学习呢')
+        }
+     }
+    const s1=new Student('小三',14,'高一')
+    console.log(s1,'s1')//Student {name: "小三", age: 14, grade: "高一"}age: 14grade: "高一"name: "小三"[[Prototype]]: Person "s1"
+    s1.speak()//我叫小三年龄14
+    s1.study()
+    /*
+     总结：
+      1.类中得构造器不是必须写的，要对实例进行一些初始化得操作，如添加指定实例才写
+      2.如果A类继承了B类，且A类中写了构造器，那么A类构造器中得super是必须要调用的，且必须写在最开始位置继承父组类。
+      3.类中所定义得方法，都是放在类得原型对象上，供实例去使用
+    */
+    </script>
+    
+    
+</body>
+</html>

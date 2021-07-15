@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hellow-react</title>
+</head>
+<body>
+   
+    <div id="test"></div>
+    <div id="test1"></div>
+    <div id="test2"></div>
+    <div id="test3"></div>
+    <div id="test4"></div>
+    <!-- 全局多了个React -->
+    <script type="text/javascript" src="../practice-base/js/react.development.js"></script>
+    <!-- 全局多了个ReactDom -->
+    <script type="text/javascript" src="../practice-base/js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../practice-base/js/babel.min.js"></script>
+    <!--  全局多了个PropTypes -->
+    <script type="text/javascript" src="../practice-base/js/prop-types.js"></script>
+    <!-- 引入prop-types用于对组件标签属性进行限制 -->
+    <script type="text/babel">
+    // 定义组件
+     class Person extends React.Component{
+         state={name:'tom',age:18,sex:'女'}
+         render(){
+             return (
+                 <ul>
+                   <li>{this.props.name}</li>
+                   <li>{this.props.age}</li>
+                   <li>{this.props.sex}</li>
+                 </ul>
+             )
+         }
+         static propTypes={
+                     name:PropTypes.string.isRequired,
+                     sex:PropTypes.string,
+                     age:PropTypes.number,
+                     speak:PropTypes.func
+                     }
+         static defaultProps={
+                       sex:'女',
+                       age:18
+                  }     
+         state={}
+                }
+    
+   //使用组件
+    const pp={name:'jerry',age:19,sex:'男'}
+    ReactDOM.render(<Person name={pp.name} age={pp.age} sex={pp.sex} speak={speak} />,document.getElementById('test4'))
+    function speak(){
+       console.log('我说话了')
+    }
+   
+    </script>
+  
+   
+</body>
+</html>

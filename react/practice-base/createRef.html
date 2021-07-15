@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hellow-react</title>
+</head>
+<body>
+    <div id="test"></div>
+    <script type="text/javascript" src="../practice-base/js/react.development.js"></script>
+    <script type="text/javascript" src="../practice-base/js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../practice-base/js/babel.min.js"></script>
+    <script type="text/babel">
+       class Demo extends React.Component{
+          /*
+            React.createRef回调后可以返回一个容器，该容器可以存储被ref所标识得节点
+            React.createRef 创建得一个容器 ， 该容器中是只能存储一个被ref所标识的节点，后面的会被覆盖掉前面的
+            React.createRef 可以创建多个容器
+        
+           */  
+           myref=React.createRef()
+           myref2=React.createRef()
+          
+           showData=()=>{
+           console.log(this.myref,'myref')//存储被ref所标识得节点
+           console.log(this.myref.current,'this.myref.current')//   <input type="text" placeholder="点击按钮显示数据"/>
+           alert(this.myref.current.value)
+           }
+          
+         
+           render(){
+                return (
+                    <div>
+
+                        <input ref={this.myref} type="text" placeholder="点击按钮显示数据"/>
+                        <button ref="button12" onClick={this.showData}>点我显示左边数据</button>
+                     
+                    </div>
+                )
+           }
+       }
+    ReactDOM.render(<Demo/>,document.getElementById('test'))
+    </script>
+</body>
+</html>
