@@ -131,7 +131,7 @@ react依赖包
 </body>
 </html>
  ```
- ### jsx语法规则
+ #### jsx语法规则
 ```
  <!DOCTYPE html>
 <html lang="en">
@@ -1100,7 +1100,7 @@ react依赖包
 </body>
 </html>
 ```
-### 高阶函数-函数柯里化
+#### 高阶函数-函数柯里化
 ```
 <!DOCTYPE html>
 <html lang="en">
@@ -1184,7 +1184,7 @@ react依赖包
 </body>
 </html>
 ```
-### 组件得生命周期
+#### 组件得生命周期
 >引出生命周期
 ```
  <!DOCTYPE html>
@@ -1259,7 +1259,7 @@ react依赖包
 * 组件从创建到死亡会经历一些特定的阶段
 * React组件中包含一系列钩子函数(生命周期回调函数)会在特定的时刻调用
 * 我们在定义组件时,会在特定的生命周期回调函数中做特定的工作
-### 生命周期流程图(旧)
+#### 生命周期流程图(旧)
 ```
   <!DOCTYPE html>
 <html lang="en">
@@ -1374,195 +1374,3 @@ react依赖包
 </body>
 </html>
 ```
-### 生命周期的三个阶段（旧）
-   1. 初始化阶段: 由ReactDOM.render()触发---初次渲染
-      1. constructor()
-      2. componentWillMount()
-      3. render()
-      4. componentDidMount()===>常用
-      >一般在这个钩子里做些初始化得事情,列如:开启定时器,发送网络请求,订阅信息
-  2. 更新阶段: 由组件内部this.setSate()或父组件重新render触发
-      1. shouldComponentUpdate()
-      2. componentWillUpdate()
-      3. render()
-      4. componentDidUpdate()
-  3. 卸载组件: 由ReactDOM.unmountComponentAtNode()触发
-      1. componentWillUnmount()  =>常用  
-      >一般在这个钩子里做些收尾的事情,列入,关闭定时器,取消订阅消息
-
-
-
-### 生命周期的三个阶段（新）
->  生命周期(新的)
-```
- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>hellow-react</title>
-</head>
-<body>
-    <div id="test"></div>
-    <div id="test1"></div>
-    <script type="text/javascript" src="../practice-base/jsnew/react.development.js"></script>
-    <script type="text/javascript" src="../practice-base/jsnew/react-dom.development.js"></script>
-    <script type="text/javascript" src="../practice-base/jsnew/babel.min.js"></script>
-    <script type="text/babel">
-     class Count extends React.Component{
-         constructor(props){//构造器
-             console.log('Count-constructor')
-             super(props)
-             this.state={count:0}//初始化状态
-         }
-        //  若state得值再任何时候都取决于props那么可以使用getDerivedStateFromProps
-         static getDerivedStateFromProps(props,state){//衍生得状态,使用场景极其罕见 // 返回 两种1.状态对象 2.返回一个null
-             console.log('getDerivedStateProps',props,state)
-             return null//{count:108}//状态将以次状态为默认状态,且不能更改
-         }
-        //  在更新之前获取快照
-        getSnapshotBeforeUpdate(){//https://zh-hans.reactjs.org/docs/react-component.html#getsnapshotbeforeupdate
-             console.log('getSnapshotBeforeUpdate')
-             return null
-         }
-        //  强制更新按钮的回调
-        force=()=>{
-            this.forceUpdate()
-        }
-         add=()=>{//加一得按钮回调
-              const {count}=this.state
-             this.setState({count:count+1})//更新状态
-         }
-         componentWillReceicwProps(){//组件将要接收props时候调用
-                  console.log('componentWillReceicwProps')
-        }
-         death=()=>{//卸载组件按钮的回调
-            ReactDOM.unmountComponentAtNode(document.getElementById('test')) //卸载组件
-         }
-         shouldComponentUpdate(){//控制组件更新的阀门,是否更新组件 //默认不写为true
-             console.log('count-shouldComponentUpdate')
-             return true //为false 的时候后面得componentWillUpdate则不执行,后续将不会更新
-         }
-         componentDidMount(){//组件挂在完毕得钩子
-            console.log('Count-componentDidMmount')
-         }
-         componentDidUpdate(a,b){//组件更新完毕得钩子
-            console.log('Count-componentDidUpdate',a,b)
-         }
-        componentWillUnmount(){//组件将要卸载得钩子
-             console.log('componentWillUnmount')
-        }
-        render(){//初始化渲染
-             console.log('Count-render')
-             return(
-                 <div>
-                     <h2>当前求和为:{this.state.count}</h2>
-                     <button  onClick={this.add}>点我加一</button>
-                     <button  onClick={this.death}>卸载组件</button>
-                     <button  onClick={this.force}>不更改任何状态中的数据,强制更新下</button>
-                 </div>
-             )
-         }
-     }
-
-     ReactDOM.render(<Count name="199" />,document.getElementById('test'))
-    </script>
-</body>
-</html>
-```
-
-#### getSnapshotBeforeUpdate使用场景
-```
-  <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>hellow-react</title>
-    <style>
-		.list{
-			width: 200px;
-			height: 150px;
-			background-color: skyblue;
-			overflow: auto;
-		}
-		.news{
-			height: 30px;
-		}
-	</style>
-</head>
-<body>
-       
-    <div id="test"></div>
-    <div id="test1"></div> 
-    <script type="text/javascript" src="../practice-base/jsnew/react.development.js"></script>
-    <script type="text/javascript" src="../practice-base/jsnew/react-dom.development.js"></script>
-    <script type="text/javascript" src="../practice-base/jsnew/babel.min.js"></script>
-    <script type="text/babel">
-		class NewsList extends React.Component{
-
-			state = {newsArr:[]}
-
-			componentDidMount(){
-				setInterval(() => {
-					//获取原状态
-					const {newsArr} = this.state
-					//模拟一条新闻
-					const news = '新闻'+ (newsArr.length+1)
-					//更新状态
-					this.setState({newsArr:[news,...newsArr]})
-				}, 1000);
-			}
-
-			getSnapshotBeforeUpdate(){
-				return this.refs.list.scrollHeight
-			}
-
-			componentDidUpdate(preProps,preState,height){
-				this.refs.list.scrollTop += this.refs.list.scrollHeight - height
-			}
-
-			render(){
-				return(
-					<div className="list" ref="list">
-						{
-							this.state.newsArr.map((n,index)=>{
-								return <div key={index} className="news">{n}</div>
-							})
-						}
-					</div>
-				)
-			}
-		}
-		ReactDOM.render(<NewsList/>,document.getElementById('test'))
-	</script>
-</body>
-</html>
-```
->生命周期的三个阶段（新）
-1. 初始化阶段: 由ReactDOM.render()触发---初次渲染
-       1. constructor()
-       2. getDerivedStateFromProps 
-       3. render()
-       4. componentDidMount()
-2. 更新阶段: 由组件内部this.setSate()或父组件重新render触发
-       1. getDerivedStateFromProps
-       2. shouldComponentUpdate()
-       3. render()
-       4. getSnapshotBeforeUpdate
-       5. componentDidUpdate()
-3. 卸载组件: 由ReactDOM.unmountComponentAtNode()触发
-         1. componentWillUnmount()
-### 重要的勾子
-1.render：初始化渲染或更新渲染调用
-2.componentDidMount：开启监听, 发送ajax请求
-3.componentWillUnmount：做一些收尾工作, 如: 清理定时器
-### 即将废弃的勾子
-1.componentWillMount
-2.componentWillReceiveProps
-3.componentWillUpdate
-现在使用会出现警告，下一个大版本需要加上UNSAFE_前缀才能使用，以后可能会被彻底废弃，不建议使用。
-### DOM的diffing算法
-<!-- p49 -->
