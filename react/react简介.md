@@ -1,18 +1,18 @@
-##### 是什么
+### 是什么
 用于构建用户界面的JavaScript库
 构建页面
 1. 发送请求获取数据
 2. 处理数据(过滤，整理格式等)
 3. **操作DOM呈现页面**
 > react 是一个将数据渲染为HTML试图的开源JavaScript库
-#### 为什么要学
+### 为什么要学
 > document.getElementById('app')
   document.querySelector('#app')
   document.getelementsByTagName('span')
 * 原生的js操作DOM频繁，效率低(，DOM-API操作ui)
 * 使用js直接操作DOM，浏览器进行大量的重绘重排
 * 原生js没有组件化编码方案，代码复用率低
- #### react特点
+ ### react特点
  * 采用组件化模式，声明式编码，提高开发效率及组件复用率
    (js命令式编码，比如盒子颜色改变，js操作DOM样式改变颜色)
    (声明式编码：不用操作DOM样式，声明以后，直接改了颜色)
@@ -1544,14 +1544,14 @@ react依赖包
 >生命周期的三个阶段（新）
 1. 初始化阶段: 由ReactDOM.render()触发---初次渲染
        1. constructor()
-       2. getDerivedStateFromProps 
+       2. getDerivedStateFromProps    (不常用)
        3. render()
        4. componentDidMount()
 2. 更新阶段: 由组件内部this.setSate()或父组件重新render触发
        1. getDerivedStateFromProps
        2. shouldComponentUpdate()
        3. render()
-       4. getSnapshotBeforeUpdate
+       4. getSnapshotBeforeUpdate  （不常用）
        5. componentDidUpdate()
 3. 卸载组件: 由ReactDOM.unmountComponentAtNode()触发
          1. componentWillUnmount()
@@ -1565,4 +1565,226 @@ react依赖包
 3.componentWillUpdate
 现在使用会出现警告，下一个大版本需要加上UNSAFE_前缀才能使用，以后可能会被彻底废弃，不建议使用。
 ### DOM的diffing算法
-<!-- p49 -->
+* DOM的diffing算法_验证Diffing算法
+ ```
+ <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>DOM的diffing算法_验证Diffing算法</title>
+</head>
+<body>
+	<!-- 准备好一个“容器” -->
+	<div id="test"></div>
+	<script type="text/javascript" src="../practice-base/jsnew/react.development.js"></script>
+    <script type="text/javascript" src="../practice-base/jsnew/react-dom.development.js"></script>
+    <script type="text/javascript" src="../practice-base/jsnew/babel.min.js"></script>
+
+	<script type="text/babel">
+	/*
+	  
+    */
+		class Time extends React.Component {
+			state = {date: new Date()}
+
+			componentDidMount () {
+				setInterval(() => {
+					this.setState({
+						date: new Date()
+					})
+				}, 1000)
+			}
+
+			render () {
+				return (
+					<div>
+						<h1>hello</h1>
+						<input type="text"/>
+						<span>
+							现在是：{this.state.date.toTimeString()}
+							<input type="text"/>
+						</span>
+					</div>
+				)
+			}
+		}
+
+		ReactDOM.render(<Time/>,document.getElementById('test'))
+</script>
+</body>
+</html>
+
+ ```
+ * DOM的diffing算法_key的作用
+ ```
+ <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>key的作用</title>
+</head>
+<body>
+<div id="test"></div>
+<script type="text/javascript" src="../practice-base/jsnew/react.development.js"></script>
+<script type="text/javascript" src="../practice-base/jsnew/react-dom.development.js"></script>
+<script type="text/javascript" src="../practice-base/jsnew/babel.min.js"></script>
+<script type="text/babel">
+	/*
+   经典面试题:
+      1). react/vue中的key有什么作用？（key的内部原理是什么？）
+      2). 为什么遍历列表时，key最好不要用index?
+      
+			1. 虚拟DOM中key的作用：
+					1). 简单的说: key是虚拟DOM对象的标识, 在更新显示时key起着极其重要的作用。
+
+					2). 详细的说: 当状态中的数据发生变化时，react会根据【新数据】生成【新的虚拟DOM】, 
+												随后React进行【新虚拟DOM】与【旧虚拟DOM】的diff比较，比较规则如下：
+
+									a. 旧虚拟DOM中找到了与新虚拟DOM相同的key：
+												(1).若虚拟DOM中内容没变, 直接使用之前的真实DOM
+												(2).若虚拟DOM中内容变了, 则生成新的真实DOM，随后替换掉页面中之前的真实DOM
+
+									b. 旧虚拟DOM中未找到与新虚拟DOM相同的key
+												根据数据创建新的真实DOM，随后渲染到到页面
+									
+			2. 用index作为key可能会引发的问题：
+								1. 若对数据进行：逆序添加、逆序删除等破坏顺序操作:
+												会产生没有必要的真实DOM更新 ==> 界面效果没问题, 但效率低。
+
+								2. 如果结构中还包含输入类的DOM：
+												会产生错误DOM更新 ==> 界面有问题。
+												
+								3. 注意！如果不存在对数据的逆序添加、逆序删除等破坏顺序操作，
+									仅用于渲染列表用于展示，使用index作为key是没有问题的。
+					
+			3. 开发中如何选择key?:
+								1.最好使用每条数据的唯一标识作为key, 比如id、手机号、身份证号、学号等唯一值。
+								2.如果确定只是简单的展示数据，用index也是可以的。
+   */
+	
+	/* 
+		慢动作回放----使用index索引值作为key
+
+			初始数据：
+					{id:1,name:'小张',age:18},
+					{id:2,name:'小李',age:19},
+			初始的虚拟DOM：
+					<li key=0>小张---18<input type="text"/></li>
+					<li key=1>小李---19<input type="text"/></li>
+
+			更新后的数据：
+					{id:3,name:'小王',age:20},
+					{id:1,name:'小张',age:18},
+					{id:2,name:'小李',age:19},
+			更新数据后的虚拟DOM：
+					<li key=0>小王---20<input type="text"/></li>
+					<li key=1>小张---18<input type="text"/></li>
+					<li key=2>小李---19<input type="text"/></li>
+
+	-----------------------------------------------------------------
+
+	慢动作回放----使用id唯一标识作为key
+
+			初始数据：
+					{id:1,name:'小张',age:18},
+					{id:2,name:'小李',age:19},
+			初始的虚拟DOM：
+					<li key=1>小张---18<input type="text"/></li>
+					<li key=2>小李---19<input type="text"/></li>
+
+			更新后的数据：
+					{id:3,name:'小王',age:20},
+					{id:1,name:'小张',age:18},
+					{id:2,name:'小李',age:19},
+			更新数据后的虚拟DOM：
+					<li key=3>小王---20<input type="text"/></li>
+					<li key=1>小张---18<input type="text"/></li>
+					<li key=2>小李---19<input type="text"/></li>
+
+
+	 */
+	class Person extends React.Component{
+
+		state = {
+			persons:[
+				{id:1,name:'小张',age:18},
+				{id:2,name:'小李',age:19},
+			]
+		}
+
+		add = ()=>{
+			const {persons} = this.state
+			const p = {id:persons.length+1,name:'小王',age:20}
+			this.setState({persons:[p,...persons]})
+		}
+
+		render(){
+			return (
+				<div>
+					<h2>展示人员信息</h2>
+					<button onClick={this.add}>添加一个小王</button>
+					<h3>使用index（索引值）作为key</h3>
+					<ul>
+						{
+							this.state.persons.map((personObj,index)=>{
+								return <li key={index}>{personObj.name}---{personObj.age}<input type="text"/></li>
+							})
+						}
+					</ul>
+					<hr/>
+					<hr/>
+					<h3>使用id（数据的唯一标识）作为key</h3>
+					<ul>
+						{
+							this.state.persons.map((personObj)=>{
+								return <li key={personObj.id}>{personObj.name}---{personObj.age}<input type="text"/></li>
+							})
+						}
+					</ul>
+				</div>
+			)
+		}
+	}
+
+	ReactDOM.render(<Person/>,document.getElementById('test'))
+</script>
+</body>
+</html>
+
+ ```
+ ### react 脚手架
+ 1. react 脚手架 
+>1. xxx脚手架: 用来帮助程序员快速创建一个基于xxx库的模板项目
+>1. 包含了所有需要的配置（语法检查、jsx编译、devServer…）
+>2. 下载好了所有相关的依赖
+>3. 可以直接运行一个简单效果
+>2. **react提供了一个用于创建react项目的脚手架库: create-react-app**  
+>3. 项目的整体技术架构为:  react + webpack + es6 + eslint
+>4. 使用脚手架开发的项目的特点: 模块化, 组件化, 工程化
+ 2. 创建项目并启动
+>1. 全局安装：npm i -g create-react-app
+>2. 切换到想创项目的目录，使用命令：create-react-app hello-react
+>3. 进入项目文件夹：cd hello-react
+>4. 启动项目：npm start    
+3. 脚手架项目结构
+```
+ublic ---- 静态资源文件夹
+		favicon.icon ------ 网站页签图标
+		index.html -------- 主页面
+		logo192.png ------- logo图
+		logo512.png ------- logo图
+		manifest.json ----- 应用加壳的配置文件
+		robots.txt -------- 爬虫协议文件
+src ---- 源码文件夹
+		App.css -------- App组件的样式
+		App.js --------- App组件
+		App.test.js ---- 用于给App做测试
+		index.css ------ 样式
+		index.js ------- 入口文件
+		logo.svg ------- logo图
+		reportWebVitals.js
+			--- 页面性能分析文件(需要web-vitals库的支持)
+		setupTests.js
+			---- 组件单元测试的文件(需要jest-dom库的支持)
+```
+<!-- p52 -->

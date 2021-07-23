@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>验证diff算法</title>
+  <title>DOM的diffing算法_验证Diffing算法</title>
 </head>
 <body>
 	<!-- 准备好一个“容器” -->
@@ -12,6 +12,9 @@
     <script type="text/javascript" src="../practice-base/jsnew/babel.min.js"></script>
 
 	<script type="text/babel">
+	/*
+	   dom diff 算法最小力度是标签，
+    */
 		class Time extends React.Component {
 			state = {date: new Date()}
 
