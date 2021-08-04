@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .box {
+      width: 174px;
+      height: 126px;
+      background: url(images/fish-12-126.png) 0 -1386px no-repeat;
+      /* steps的取值是总的画面数 - 1  因为默认情况下就可以看到第一个画面  */
+      animation: yao 1s steps(11) infinite;
+
+
+      /* 
+      帧动画的使用步骤:
+      1. 先确定一个画面的大小 将这个大小作为盒子的大小
+      2. 确定动画的起始画面和结束画面
+      3. 确定一共有多少个画面 steps的取值是总的画面数 - 1 
+      */
+    }
+
+    @keyframes yao {
+      0% {
+        background-position: 0 0;
+      }
+
+      100% {
+        background-position: 0 -1386px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box"></div>
+</body>
+
+</html>

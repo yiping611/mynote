@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    ul {
+      list-style-type: none;
+      width: 500px;
+      height: 40px;
+      border: 1px solid #000;
+      margin: 100px auto;
+    }
+
+    ul li:hover {
+      transform: rotateX(-90deg);
+    }
+
+    li {
+      width: 100px;
+      height: 40px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: all .5s;
+      float: left;
+    }
+
+    li span {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      text-align: center;
+      line-height: 40px;
+    }
+
+    li span:nth-child(1) {
+      background-color: pink;
+      transform: translateZ(20px);
+    }
+
+    li span:nth-child(2) {
+      background-color: lime;
+      transform: rotateX(90deg) translateZ(20px);
+    }
+  </style>
+</head>
+
+<body>
+  <ul>
+    <li>
+      <span>web前端</span>
+      <span>传智播客</span>
+    </li>
+    <li>
+      <span>web前端</span>
+      <span>传智播客</span>
+    </li>
+    <li>
+      <span>web前端</span>
+      <span>传智播客</span>
+    </li>
+  </ul>
+</body>
+
+</html>

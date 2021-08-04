@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #000;
+      perspective: 1000px;
+    }
+    ul {
+      width: 300px;
+      height: 400px;
+      margin: 200px auto;
+      list-style: none;
+      position: relative;
+      transition: all 1s;
+      transform-origin: center bottom;
+      /* 让子元素在三维空间布局 */
+      transform-style: preserve-3d;
+    }
+    li {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      transition: all 1s;
+      /* 让li绕左边转 */
+      transform-origin: left center;
+      border: 3px solid gold;
+      box-sizing: border-box;
+    }
+    li img {
+      width: 100%;
+      height: 100%;
+    }
+    /* 
+      功能分析:
+        1. 先推倒, 让 ul 绕 x 轴旋转
+        2. 再翻页, 翻的是每个 li, 让 li 绕 y 轴转
+           注意点: 从最后一个开始翻
+    */
+    ul:hover {
+      transform: rotateX(30deg);
+    }
+    /* 倒数第一个 */
+    ul:hover li:nth-last-child(1) {
+      transform: rotateY(-170deg);
+      transition-delay: 1s;
+    }
+    ul:hover li:nth-last-child(2) {
+      transform: rotateY(-150deg);
+      transition-delay: 2s;
+    }
+    ul:hover li:nth-last-child(3) {
+      transform: rotateY(-130deg);
+      transition-delay: 3s;
+    }
+    ul:hover li:nth-last-child(4) {
+      transform: rotateY(-40deg);
+      transition-delay: 4s;
+    }
+  </style>
+</head>
+<body>
+
+  <ul>
+    <li><img src="images/01.jpg" alt=""></li>
+    <li><img src="images/02.jpg" alt=""></li>
+    <li><img src="images/03.jpg" alt=""></li>
+    <li><img src="images/04.jpg" alt=""></li>
+    <li><img src="images/05.jpg" alt=""></li>
+  </ul>
+  
+</body>
+</html>

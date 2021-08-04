@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>翻面</title>
+    <style type="text/css">
+        .box{
+            width:300px;
+            height:272px;
+            margin:50px auto 0;
+            transform-style:preserve-3d;
+            /* transform-style  设置盒子是否按照3D 空间显示  flat  preserve-3D*/
+            position:relative;            
+        }
+        .box .pic{
+            width:300px;
+            height:272px;
+            position:absolute;
+            background-color:cyan;
+            left:0;
+            top:0;
+            transform:perspective(800px) rotateY(60deg);
+            /* 设置透视距离 ，旋转Y轴 60度 */
+            backface-visibility:hidden;
+            /* 设置盒子背面是否可见 */
+            transition:all 500ms ease;
+            /* 所有元素过渡，过渡时间500ms 。速度慢 */
+        }
+        .box .back_info{
+            width:300px;
+            height:272px;
+            text-align:center;
+            line-height:272px;
+            background-color:gold;
+            position:absolute;
+            left:0;
+            top:0;
+            transform:rotateY(180deg);
+            /* 转换后的Y轴角度 */
+            backface-visibility:hidden;
+            /* 背面是否可看 */
+            transition:all 500ms ease;            
+        }
+        .box:hover .pic{
+            transform:perspective(800px) rotateY(180deg);
+            /* 正面转换，视角看不到 */
+        }
+        .box:hover .back_info{
+            transform:perspective(800px) rotateY(0deg);
+            /* 背面转换看到 */
+        }
+    </style>
+</head>
+<body>
+    <div class="box">        
+        <div class="pic"></div>
+        <div class="back_info">背面文字说明</div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    /* rem带来的宽高自适应 其实本质上就是动态改变html的font-size值
+
+      不同的屏幕下面 应该对应 不同的html的font-size值
+      (主流屏幕)
+
+      320的屏幕  100的html的font-size值
+      640的屏幕  200的的html的font-size值 
+
+
+      需求：基于750的设计图自定义 html的font-size为50 ,里面得到的盒子的大小为100px 100px 改写成rem 可以实现在主流手机里面宽高自适应 
+      主流手机机型：320 360 375 384 400 414 424 480 540 720 750
+    */
+
+
+    /*
+      小结一下:
+
+      1. 一旦改变html的font-size值  那么rem的都会跟着改变
+      2. 按照固定的比例 动态改变html的font-size值  那么整个页面就会呈现宽高等比例变化
+      3. 使用媒体查询动态调整 html的font-size
+      4. 原始比例: 设计图的大小 (这个原始屏幕) / 基于这个屏幕我们自己设定的html的font-size
+      5. 从设计图里面得到的盒子的大小转换成rem  对应的px / 原始的html的font-size  
+    */
+    html {
+      font-size: 50px;
+    }
+
+    .box {
+      width: 2rem;
+      /* px / html的font-size */
+      height: 2rem;
+      background-color: pink;
+    }
+
+    /* @media screen and (min-width: 375px) {
+      html {
+        font-size: 25px;
+      }
+    } */
+
+
+    @media screen and (min-width: 320px) {
+      html {
+        /* 当前的屏幕 / 15 */
+        font-size: 21.33px;
+      }
+    }
+
+    @media screen and (min-width: 360px) {
+      html {
+        /* 当前的屏幕 / 15 */
+        font-size: 24px;
+      }
+    }
+
+    @media screen and (min-width: 375px) {
+      html {
+        /* 当前的屏幕 / 15 */
+        font-size: 25px;
+      }
+    }
+
+    @media screen and (min-width: 384px) {
+      html {
+        /* 当前的屏幕 / 15 */
+        font-size: 25.6px;
+      }
+    }
+
+    @media screen and (min-width: 400px) {
+      html {
+        /* 当前的屏幕 / 15 */
+        font-size: 26.66px;
+      }
+    }
+
+    @media screen and (min-width: 414px) {
+      html {
+        /* 当前的屏幕 / 15 */
+        font-size: 27.6px;
+      }
+    }
+
+    @media screen and (min-width: 424px) {
+      html {
+        /* 当前的屏幕 / 15 */
+        font-size: 28.26px;
+      }
+    }
+
+    @media screen and (min-width: 480px) {
+      html {
+        /* 当前的屏幕 / 15 */
+        font-size: 32px;
+      }
+    }
+
+    @media screen and (min-width: 750px) {
+      html {
+        /* 当前的屏幕 / 15 */
+        font-size: 50px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box"></div>
+</body>
+
+</html>

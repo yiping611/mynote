@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    ul {
+      list-style-type: none;
+    }
+
+    ul {
+      width: 400px;
+      height: 400px;
+      border: 1px solid #000;
+      margin: 100px auto;
+      position: relative;
+      transition: all 5s;
+      /* 让ul的子元素保留3D立体布局 */
+      transform-style: preserve-3d;
+      /* perspective: 900px; */
+    }
+
+    /* 旋转ul 让ul带着立体的li旋转 */
+    ul:hover {
+      transform: rotateX(360deg) rotateY(360deg);
+    }
+
+    ul li {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    ul li:nth-child(1) {
+      background-color: red;
+      transform: rotateX(90deg) translateZ(200px);
+    }
+
+    ul li:nth-child(2) {
+      background-color: green;
+      transform: rotateX(-90deg) translateZ(200px);
+    }
+
+    ul li:nth-child(3) {
+      background-color: blue;
+      transform: rotateY(-90deg) translateZ(200px);
+    }
+
+    ul li:nth-child(4) {
+      background-color: yellow;
+      transform: rotateY(90deg) translateZ(200px);
+    }
+
+    ul li:nth-child(5) {
+      background-color: pink;
+      transform: translateZ(200px);
+    }
+
+    ul li:nth-child(6) {
+      background-color: purple;
+      transform: translateZ(-200px);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- 
+  立方体的制作:
+  1. 一个大盒子包裹六个小盒子 六个小盒子分别代表六个面
+  2. 将六个小盒子rotate到对应的位置,然后朝前走即可  前后两个面只需要控制前后关系即可
+  3. 将六个小盒子基于大盒子定位
+  4. 旋转了大盒子  让大盒子带着小盒子旋转
+  5. 给大盒子添加transform-style: preserve-3d; 
+  -->
+
+  <ul>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+    <li>6</li>
+  </ul>
+</body>
+
+</html>

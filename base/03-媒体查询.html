@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    /*
+      媒体查询: 根据不同的屏幕  运行不同的css
+
+      写在css里面
+
+
+      语法:
+      @media screen and (条件) {
+        当条件满足执行的css代码
+      }
+
+      条件: 
+      1. min-width: 320px  最小宽(320以上的屏幕都满足)
+      2. max-width: 640px  最大宽(640以下的屏幕都满足)
+      3. width: 540px (等于540的屏幕满足)
+
+
+      当有多个条件的时候可以使用 and 进行连接  
+      坑: and前后必须有空格
+
+
+      小结: 
+      媒体查询的作用: 根据不同的屏幕  使用不同的css
+
+      语法: @media screen and (条件) and (条件) {}
+
+
+      条件说明
+      1. min-width:  最小宽(  xxx宽度以上都满足 )
+      2. max-width:  最大宽(  xxx宽度一下都满足 )
+      3. width: 宽度 (必须等于对应的宽度才满足)
+
+    */
+
+    /* @media screen and (min-width:320px) {
+      .box {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+      }
+    } */
+
+    /* @media screen and (max-width:640px) {
+      .box {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+      }
+    } */
+
+    /* @media screen and (width:540px) {
+      .box {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+      }
+    } */
+
+
+    @media screen and (min-width: 320px) and (max-width: 640px) {
+      .box {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box"></div>
+</body>
+
+</html>

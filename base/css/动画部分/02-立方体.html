@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      perspective: 1000px;
+    }
+    ul {
+      width: 200px;
+      height: 200px;
+      border: 1px solid #000;
+      margin: 100px auto;
+      list-style: none;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: all 10s;
+    }
+    ul:hover {
+      transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+    }
+    li {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+    }
+    /* 
+      立方体实现:
+      1. 让面旋转朝向对应的方向
+      2. 往 z 轴方向走  (脸看的方向永远是z轴)
+    */
+    /* 正面 */
+    li:nth-child(1) {
+      background-color: pink;
+      transform: translateZ(100px);
+    }
+    /* 上面 */
+    li:nth-child(2) {
+      background-color: orange;
+      transform: rotateX(90deg) translateZ(100px);
+    }
+    /* 下面 */
+    li:nth-child(3) {
+      background-color: skyblue;
+      transform: rotateX(-90deg) translateZ(100px);
+    }
+    /* 左面 */
+    li:nth-child(4) {
+      background-color: purple;
+      transform: rotateY(-90deg) translateZ(100px);
+    }
+    /* 右面 */
+    li:nth-child(5) {
+      background-color: red;
+      transform: rotateY(90deg) translateZ(100px);
+    }
+    /* 后面 */
+    li:nth-child(6) {
+      background-color: brown;
+      transform: rotateY(180deg) translateZ(100px);
+    }
+  </style>
+</head>
+<body>
+
+  <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+  
+</body>
+</html>

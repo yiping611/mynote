@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    ul {
+      list-style-type: none;
+    }
+
+    ul {
+      width: 200px;
+      height: 400px;
+      border: 1px solid #000;
+      margin: 100px auto;
+      position: relative;
+      /* 添加一个透视距: 近大远小的视觉呈递  作用是为了让用户更加直观的感受3D效果 一般用来调试3D效果的 */
+      perspective: 900px;
+      transform: rotateY(0deg);
+      /* 让子元素保留立体布局  真3D  但凡是一个立体效果 那么这句话必不可少 */
+      transform-style: preserve-3d;
+    }
+
+    ul li {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+    }
+
+    ul li:nth-child(1) {
+      background-color: red;
+    }
+
+    ul li:nth-child(2) {
+      background-color: green;
+      transform: rotateX(45deg);
+    }
+  </style>
+</head>
+
+<body>
+  <ul>
+    <li></li>
+    <li></li>
+  </ul>
+</body>
+
+</html>

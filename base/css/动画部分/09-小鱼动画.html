@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    body {
+      background-color: skyblue;
+    }
+    .fish {
+      width: 174px;
+      height: 126px;
+      background: url("images/fish-12-126.png") 0 0;
+      /* 显示第2条鱼 */
+      /* background: url("images/fish-12-126.png") 0 -126px; */
+      /* background: url("images/fish-12-126.png") 0 -252px; */
+      
+      /* animation: 动画名称 动画时间 动画效果 动画次数 */
+      /* 组合动画, 要连写, 通过逗号隔开 */
+      animation: dou 1s steps(12) infinite, swim 6s infinite;
+    }
+    /* 
+      小鱼动画,
+      1. 先让鱼原地动起来  抖, 调整背景定位
+      2. 游起来, 复杂动画
+         (1) 原始位置  0%
+         (2) 游到最右边 25%
+         (3) 转个身  50%
+         (4) 游回来  75%
+         (5) 转回去  100%
+    */
+    @keyframes dou {
+      from {
+        background-position: 0 0;
+      }
+      to {
+        background-position: 0 -1512px;
+      }
+    }
+    /* 设计动画一一对应 */
+    @keyframes swim {
+      0% {
+        transform: translateX(0px) rotate(0deg);
+      }
+      25% {
+        transform: translateX(800px) rotate(0deg);
+      }
+      50% {
+        transform: translateX(800px) rotate(180deg);
+      }
+      75% {
+        transform: translateX(0px) rotate(180deg);
+      }
+      100% {
+        transform: translateX(0px) rotate(360deg);
+      }
+    }
+
+    .fish:nth-child(1),
+    .fish:nth-child(5) {
+      animation-duration: 1.2s, 10s;
+    }
+    .fish:nth-child(2),
+    .fish:nth-child(4) {
+      animation-duration: 1.1s, 8s;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="fish"></div>
+  <div class="fish"></div>
+  <div class="fish"></div>
+  <div class="fish"></div>
+  <div class="fish"></div>
+  
+</body>
+</html>
