@@ -26,6 +26,7 @@ transition-delay: 过渡延迟时间(默认值为0s)
 11、backface-visibility 设置盒子背面是否可见
 ```
 ## animation动画
+>transition只能从一组css属性变成另一组css属性。animation则可以在多组属性之间变换。transition必须使用触发器触发，animation可以使用触发器，也可以在页面加载完成的时候自动触发
 ```
 属性参数：
 

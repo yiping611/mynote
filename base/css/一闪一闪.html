@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .item {
+        height: 30px;
+        width: 30px;
+        background-color: red;
+        display: inline-block;
+        border-radius: 50%;
+        animation: xingxing 0.5s infinite;
+
+    }
+
+    .item2 {
+        height: 30px;
+        width: 30px;
+        background-color: rgb(51, 255, 0);
+        display: inline-block;
+        border-radius: 50%;
+        animation: xingxing2 0.5s infinite;
+
+    }
+
+    @keyframes xingxing {
+        from {
+            background-color: red;
+
+        }
+
+        to {
+            background-color: rgb(51, 255, 0);
+        }
+    }
+
+    @keyframes xingxing2 {
+        from {
+            background-color: rgb(51, 255, 0);
+
+
+        }
+
+        to {
+            background-color: red;
+        }
+    }
+
+    .item:nth-child(1) {
+        animation-duration: 1s
+    }
+
+    .item:nth-child(2) {
+        animation-duration: 1.5s
+    }
+
+    .item:nth-child(3) {
+        animation-duration: 0.5s
+    }
+
+    .item:nth-child(4) {
+        animation-duration: 2s
+    }
+
+    .item2:nth-child(1) {
+        animation-duration: 2s
+    }
+
+    .item2:nth-child(2) {
+        animation-duration: 0.5s
+    }
+
+    .item2:nth-child(3) {
+        animation-duration: 1.5s
+    }
+
+    .item2:nth-child(4) {
+        animation-duration: 1s
+    }
+
+    /*  */
+    .circle-left {
+        width: 100px;
+        height: 200px;
+        border-radius: 0px 100px 100px 0px;
+        position: absolute;
+        right: 0;
+        transform-origin: 0 50%;
+    }
+
+    .circle-right {
+        width: 100px;
+        height: 200px;
+        border-radius: 100px 0px 0px 100px;
+        position: absolute;
+        right: 0;
+        transform-origin: 100% 50%;
+    }
+
+    #circle0 {
+        width: 200px;
+        height: 200px;
+        border-radius: 100px;
+        background-color: pink;
+        /* position: relative; */
+        position: absolute;
+        left: 50px;
+        top: 50px;
+        /* transform: rotate(22.5deg); */
+    }
+    #circle2 {
+        /* background-color: #70f3ff; */
+        border-left: 1px solid #fff;
+
+    }
+
+    #circle3 {
+        /* background-color: #ff461f; */
+        transform: rotate(45deg);
+        border-left: 1px solid #fff;
+    }
+
+    #circle4 {
+        /* background-color: #bce672; */
+        transform: rotate(90deg);
+        border-left: 1px solid #fff;
+    }
+
+    #circle5 {
+        /* background-color: #ffffff; */
+        transform: rotate(135deg);
+        border-left: 1px solid #fff;
+    }
+
+    #circle6 {
+        /* background-color: #3b2e7e; */
+        transform: rotate(0deg);
+        /* border-right: 1px solid #fff; */
+    }
+
+    #circle7 {
+        /* background-color: #ff2121; */
+        transform: rotate(225deg);
+        border-right: 1px solid #fff;
+    }
+
+    #circle8 {
+        /* background-color: #16a951; */
+        transform: rotate(270deg);
+        border-right: 1px solid #fff;
+    }
+
+    #circle9 {
+        /* background-color: #e0eee8; */
+        transform: rotate(315deg);
+        border-right: 1px solid #fff;
+        /* border-image: linear-gradient(#fff 20px,#000 180px,#fff 20px); */
+    }
+
+    #left {
+        clip: rect(0px 100px 200px 0px);
+        position: absolute;
+        right: 0px;
+        width: 100px;
+        height: 200px;
+        overflow: hidden;
+        border-left: 1px solid #fff;
+        z-index: 2;
+    }
+
+
+    #right {
+        clip: rect(0px 100px 200px 0px);
+        position: absolute;
+        left: 0px;
+        width: 100px;
+        height: 200px;
+        overflow: hidden;
+        border-right: 1px solid #fff;
+        border-image: linear-gradient(#fff 20px, #000 180px, #fff 20px);
+
+        z-index: 2;
+    }
+   
+    /*  */
+    #circle00 {
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        background-color: rgb(238, 75, 102);
+        /* position: relative; */
+        position: absolute;
+        left: 20px;
+        top: 20px;
+        /* transform: rotate(22.5deg); */
+    }
+    #left0 {
+        clip: rect(0px 80px 160px 0px);
+        position: absolute;
+        right: 0px;
+        width: 80px;
+        height: 160px;
+        overflow: hidden;
+        border-left: 1px solid;
+        z-index: 3;
+    }
+    #right0 {
+        clip: rect(0px 80px 160px 0px);
+        position: absolute;
+        left: 0px;
+        width: 80px;
+        height: 160px;
+        overflow: hidden;
+        border-right: 1px solid;
+        /* border-image: linear-gradient(#fff 20px, #000 180px, #fff 20px); */
+
+        z-index: 3;
+    }
+    .circle-left0{
+        width: 80px;
+        height: 160px;
+        border-radius: 0px 80px 80px 0px;
+        position: absolute;
+        right: 0;
+        transform-origin: 0 50%;
+    }
+    .circle-right0 {
+        width: 80px;
+        height: 160px;
+        border-radius: 100px 0px 0px 100px;
+        position: absolute;
+        right: 0;
+        transform-origin: 100% 50%;
+    }
+    /*  */
+
+    /* .sss {
+        height: 160px;
+        width: 160px;
+        background-color: red;
+        border-radius: 50%;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 1;
+    } */
+    .rr{
+        position: absolute;
+        top: 0px;
+        right: -14px;
+    }
+    .dian{
+        height: 50px;width: 50px;    position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgb(66, 10, 10);
+        z-index: 99;
+    }
+    .ee:hover #circle0{
+        transform: rotate(3600deg);
+        transition: transform 10s ease-in-out;
+    }
+    #aa{
+        transform: rotate( 
+27deg);
+    position: absolute;
+    font-size: 12px;
+    top: 9px;
+    left: -12px;
+    width: 100%;
+    text-align: center;
+    }
+    #bb{
+   
+        position: absolute;
+    transform: rotate( 
+334deg);
+    left: 15px;
+    top: 9px;
+    font-size: 12px;
+    width: 100%;
+    text-align: center;
+
+}
+    
+</style>
+<script type="text/javascript"  src="../js/jquery-3.4.1.min.js" ></script>
+<script src="../js/jquery.arctext.js"></script>
+<script>
+$(function(){
+        $("#title").show().arctext({
+            radius:360
+        })
+
+  
+
+    $(" #aa").show().arctext({
+            radius:80
+        })
+        $(" #bb").show().arctext({
+            radius:80
+        })
+    })
+   
+</script>
+<body>
+    <!-- <h3 id="title">文字弯曲效果类似扇形拱桥状文字弯曲效果类似扇形拱桥状文字弯曲效果类似扇形拱桥状文字弯曲效果类似扇形拱桥状</h3> -->
+    <div class="lin1">
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+    </div>
+    <div class="lin2">
+        <div class="item2"></div>
+        <div class="item2"></div>
+        <div class="item2"></div>
+        <div class="item2"></div>
+    </div>
+    <!--  -->
+   <div class="ee" style="position: relative; height: 300px;width: 300px;">
+    <div id="circle0" style="background-color: pink">
+        <div id="left">
+            <div class="circle-left" id="circle2"><div  id="aa">奖项一</div></div>
+            <div class="circle-left" id="circle3"><div  id="aa">奖项一些</div></div>
+            <div class="circle-left" id="circle4"><div  id="aa">奖项一二</div></div>
+            <div class="circle-left" id="circle5"><div  id="aa">奖项一撒</div></div>
+        </div>
+        <div id="right">
+            <div class="circle-right" id="circle9"><div id="bb">奖项一</div></div>
+            <div class="circle-right" id="circle8"><div id="bb">奖项二</div></div>
+            <div class="circle-right" id="circle7"><div id="bb">奖项撒</div></div>
+            <div class="circle-right" id="circle6"><div id="bb">谢谢惠顾</div></div>
+        </div>
+        <div id="circle00" >
+            <div id="left0">
+                <div class="circle-left0" id="circle2" style="border-left: 1px solid;"   ></div>
+                <div class="circle-left0" id="circle3" style="border-left: 1px solid;"   ></div>
+                <div class="circle-left0" id="circle4" style="border-left: 1px solid;"   ></div>
+                <div class="circle-left0" id="circle5" style="border-left: 1px solid;"   ></div>
+            </div>
+            <div id="right0">
+                <div class="circle-right0" id="circle9"  style="border-right: 1px solid;"></div>
+                <div class="circle-right0" id="circle8"  style="border-right: 1px solid;"></div>
+                <div class="circle-right0" id="circle7"  style="border-right: 1px solid;"></div>
+                <div class="circle-right0" id="circle6" ></div>
+            </div>
+        </div>
+    </div>
+    <div  class="dian"></div>
+   </div>
+
+
+
+
+</body>
+
+</html>
