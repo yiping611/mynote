@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        div{
+            width: 100px;
+            height: 100px;
+            background-color: #f99;
+            padding: 10px;
+            border: 10px solid #000;
+            border-left-width: 20px;
+            border-top-width: 40px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="box">
+       潍坊人
+    </div>
+
+    <script>
+
+        // client家族
+        // clientWidth clientHeight clientLeft clientTop
+        
+        // clientWidth  clientHeight 获取元素可视区大小
+        
+        var box = document.querySelector("#box");
+
+        /*console.log(box.offsetHeight);
+        // 内容没有撑开的时候，scrollHeight  和 clientHeight 是相等
+        console.log(box.scrollHeight); 
+        console.log(box.clientHeight);
+        console.log(box.clientWidth);*/
+        
+        // clientLeft clientTop  获取左、上边框的大小
+        console.log(box.clientLeft, box.clientTop);
+    </script>
+</body>
+</html> 

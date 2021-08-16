@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+    div {
+        width: 200px;
+        height: 200px;
+        background-color: #f99;
+        cursor: move;
+        position: absolute;
+        top: 100px;
+        left: 100px;
+    }
+    </style>
+</head>
+
+<body>
+    <div></div>
+    <script>
+        // 节流阀思想
+        //  就是用来限制事件的触发 该案例中限制mousemove事件
+        //  
+        //  使用节流阀思路：
+        //    1. 先定义一个阀门，明确阀门的初始状态（阀门一开始开启的还是关闭状态）
+        //    2. 明确阀门什么时候开启什么时候关闭      
+
+        var box = document.querySelector("div");
+        var flag = false;  // flag 变量就代表阀门，阀门一开始是关闭状态，表示mousemove事件一开始不能触发执行
+        
+        // 1. 在div上摁下去（不松手）
+        box.onmousedown = function () {
+            console.log("摁下去了");
+
+            // 鼠标摁下去的时候，把阀门给打开
+            flag = true;
+        }
+
+        // 2. 在页面中移动
+        // 必须是摁下去了才会有移动效果
+        document.onmousemove = function (e) {
+            if(flag){
+                // 阀门是开启状态才执行mousemove里面的代码
+                console.log("div跟随鼠标移动了");
+            }
+        }
+
+        // 3.在页面中鼠标抬起来了
+        document.onmouseup = function () {
+            console.log("鼠标抬起来了");
+
+            // 鼠标抬起来，把阀门给关闭了
+            flag = false;
+        }
+    </script>
+</body>
+
+</html>

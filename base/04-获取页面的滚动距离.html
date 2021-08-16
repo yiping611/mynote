@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        body{height: 4000px;}
+    </style>
+</head>
+<body>
+    <script>
+        // 获取页面的滚动距离
+        
+        // 老版本浏览器：
+        // 通过html、或者是body的scrollTop来获取的
+        
+        // console.log(document.documentElement.scrollTop);
+        // console.log(document.body.scrollTop);
+        
+        // console.log(document.documentElement.scrollTop || document.body.scrollTop);
+
+        // 现代浏览器
+        // window.pageYOffset
+        // console.log(window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop);
+
+        // 给window注册scroll事件 ，给window注册兼容性更好
+        window.onscroll = function () {
+            console.log(window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop);
+        }
+    </script>
+</body>
+</html>

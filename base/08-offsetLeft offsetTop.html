@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        *{margin: 0;padding: 0;}
+        .father{
+            width: 400px;
+            height: 400px;
+            background-color: #f99;
+            margin: 100px;
+            padding-left: 100px;
+            position: relative;
+        }
+        .son{
+            width: 100px;
+            height: 100px;
+            background-color: #ccc;
+            position: relative;
+            left: 50px;
+            top: 80px;
+        }
+    </style>
+</head>
+<body>
+
+    
+    <div class="father">
+        <div class="son"></div>
+    </div>
+        
+
+    <script>
+
+        // offsetLeft offsetTop  获取元素到最近的有定位的父节点之间真实的距离
+        //              说白了就是说去获取元素到offsetParent之间的距离
+        
+        var son = document.querySelector(".son");
+        // 获取
+        console.log(son.offsetLeft);
+        
+        // 设置无效，offsetLeft offsetTop也是只读属性
+        // son.offsetLeft = 0;
+
+        // 修改间距 style来设置
+        son.style.left = 0;
+        
+
+
+        // 小结:
+        //  offset系列
+        //  offsetWidth offsetHeight  获取元素真实的宽高大小
+        //  offsetParent 获取距离元素最近的有定位的父节点
+        //  offsetLeft offsetTop  获取元素到offsetParent之间的距离
+        //  
+        //  都是只读属性，设置无效
+        //  如要设置，通过style
+    </script>
+</body>
+</html> 

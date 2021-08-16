@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        div{
+            width: 100px;
+            height: 100px;
+            background-color: #f99;
+            padding: 10px;
+            border: 10px solid #000;
+            overflow: scroll;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="box">
+        哈哈哈哈，马上迎来jquery时代
+        哈哈哈哈，马上迎来jquery时代
+        哈哈哈哈，马上迎来jquery时代
+        哈哈哈哈，马上迎来jquery时代
+        assfgrrthyjtedwqefrgthyjwefrgthy
+        哈哈哈哈，马上迎来jquery时代
+        哈哈哈哈，马上迎来jquery时代
+        哈哈哈哈，马上迎来jquery时代
+        哈哈哈哈，马上迎来jquery时代
+        哈哈哈哈，马上迎来jquery时代
+    </div>
+
+    <script>
+
+        // scroll家族：
+        // scrollWidth scrollHeight scrollLeft scrollTop
+        
+        // scrollWidth scrollHeight 内容的宽高大小
+        
+        var box = document.querySelector("#box");
+        /*console.log(box.offsetHeight); // 真实的高度
+        console.log(box.scrollHeight); // 内容的高度
+        console.log(box.scrollWidth);*/
+
+        // scrollLeft scrollTop 获取内容的卷曲的距离
+        
+        
+        // 滚动事件 onscroll： 当滚动条滚动的时候触发
+        box.onscroll = function () {
+            // console.log(box.scrollTop);
+            console.log(box.scrollLeft);
+        }
+
+        // 小结：
+        //  scroll家族
+        //  scrollWidth scrollHeight 获取内容的宽高大小
+        //  scrollLeft scrollTop  获取内容的卷曲距离
+        //  onscroll 滚动事件
+    </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      div {
+        width: 200px;
+        height: 200px;
+        background-color: #f99;
+        cursor: move;
+        position: absolute;
+        top: 100px;
+        left: 100px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div></div>
+    <script>
+      // 流程
+      // 1. 在div上摁下去（不松手） onmousedown
+      // 2. 在页面中移动，让div跟随鼠标移动  onmousemove
+      //      必须是要在摁下去的前提下才能移动
+      // 3. 在页面中鼠标抬起来了，div就不用跟随鼠标移动  onmouseup
+
+      // onmousedown 鼠标摁下去触发
+      // onmouseup  鼠标抬起来触发
+
+      var box = document.querySelector('div')
+
+      // 1. 在div上摁下去（不松手）
+      box.onmousedown = function() {
+        console.log('摁下去了')
+
+        // 2. 在页面中移动
+        // 必须是摁下去了才会有移动效果
+        document.onmousemove = function(e) {
+          console.log('div跟随鼠标移动了')
+
+          // div跟随鼠标移动了,是修改div的left、top位置为鼠标的位置
+          box.style.left = e.pageX + 'px'
+          box.style.top = e.pageY + 'px'
+        }
+      }
+
+      // 3.在页面中鼠标抬起来了
+      document.onmouseup = function() {
+        console.log('鼠标抬起来了')
+        // 把鼠标移动事件给解绑掉（该事件不要了）
+        document.onmousemove = null
+      }
+
+      //细节点
+      // 1. mousemove事件需要放在mousedown事件里面
+      // 2. 在mouseup事件里面把mousemove事件给解绑掉
+    </script>
+  </body>
+</html>
