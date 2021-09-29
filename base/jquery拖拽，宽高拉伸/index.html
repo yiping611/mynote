@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>四边伸缩可拖拽可限制最小宽高又不超浏览器范围</title>
+    <style>
+        body {background: #f9f9f9;}
+        .block {width: 300px; height: 300px; min-width: 200px; min-height: 200px; background: #fff; position: absolute; left: calc(50% - 150px); top: calc(50% - 150px); box-shadow: 0 10px 20px -10px rgba(0,0,0,0.3);}
+        header {height: 40px; background: rgba(63, 81, 181, 0.8); line-height: 40px; text-align: center; color: #fff; cursor: pointer; font-size: 14px;}
+        header:hover {background: rgba(63, 81, 181, 1);}
+        article {padding: 20px; font-size: 14px;}
+        .border {position: absolute; z-index: 9999; background: rgba(233, 30, 99, 0.2); cursor: pointer;}
+        .border:hover {background: rgba(233, 30, 99, 0.5);}
+        #border-top,#border-bottom {width: 100%; height: 10px; cursor: ns-resize;}
+        #border-right,#border-left {width: 10px; height: 100%; cursor: ew-resize;}
+        #border-right-top,#border-right-bottom,#border-left-bottom,#border-left-top {width: 10px; height: 10px;}
+        #border-top,#border-left-top {top: 0; left: 0;}
+        #border-right,#border-right-top {top: 0; right: 0;}
+        #border-bottom,#border-left-bottom {left: 0; bottom: 0;}
+        #border-left {top: 0; left: 0;}
+        #border-right-bottom {right: 0; bottom: 0;}
+        #border-left-top,#border-right-bottom {cursor: nwse-resize;}
+        #border-right-top,#border-left-bottom {cursor: nesw-resize;}
+    </style>
+    <script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+</head>
+<body>
+
+    <div class="block">
+        <div class="border" id="border-top"></div>
+        <div class="border" id="border-right"></div>
+        <div class="border" id="border-bottom"></div>
+        <div class="border" id="border-left"></div>
+        <div class="border" id="border-right-top"></div>
+        <div class="border" id="border-right-bottom"></div>
+        <div class="border" id="border-left-bottom"></div>
+        <div class="border" id="border-left-top"></div>
+        <header>拖拽区域</header>
+        <article>我是内容我是内容我是内容我是内容我是内容我是内容我是内容</article>
+    </div>
+
+    <script>
+
+        var thisBlock = $('.block');
+
+        $(document).mousemove(function(e) {
+            if (!!this.move) {
+                var posix = !document.move_target ? {'x': 0, 'y': 0} : document.move_target.posix,
+                callback = document.call_down || function() {
+                    $(this.move_target).css({
+                        'top': e.pageY - posix.y,
+                        'left': e.pageX - posix.x
+                    });
+                };
+                
+                callback.call(this, e, posix);
+            }
+        }).mouseup(function(e) {
+            if (!!this.move) {
+                var callback = document.call_up || function(){};
+                callback.call(this, e);
+                $.extend(this, {
+                    'move': false,
+                    'move_target': null,
+                    'call_down': false,
+                    'call_up': false
+                });
+            }
+        });
+         
+        $('header').mousedown(function(e) {
+            e.stopPropagation();
+            var drag = thisBlock[0]; 
+            var e = e || window.event;
+            var diffX = e.clientX - drag.offsetLeft;
+            var diffY = e.clientY - drag.offsetTop; 
+            if(drag.setCapture){ 
+                drag.setCapture(); 
+            }else{
+                e.preventDefault()?e.preventDefault():returnValue=false;
+            }
+            document.onmousemove = function(e) { 
+                var e = e || window.event;
+                var left=e.clientX-diffX; 
+                var top=e.clientY-diffY; 
+                if(left<0){ 
+                    left=0; 
+                }else if(left >window.innerWidth-drag.offsetWidth){ 
+                    left = window.innerWidth-drag.offsetWidth; 
+                } 
+                if(top<0){ 
+                    top=0; 
+                }else if(top >window.innerHeight-drag.offsetHeight){ 
+                    top = window.innerHeight-drag.offsetHeight; 
+                } 
+                drag.style.left = left+ 'px'; 
+                drag.style.top = top + 'px'; 
+            }; 
+            document.onmouseup = function(e) {
+                this.onmousemove = null; 
+                this.onmouseup = null;
+                if(drag.releaseCapture){ 
+                    drag.releaseCapture(); 
+                } 
+            }; 
+        })
+
+        $('.border').on('mousedown',function(e){
+            var oDiv = thisBlock[0];
+            e = e || event;
+            var disX = e.clientX - oDiv.offsetLeft;
+            var disY = e.clientY - oDiv.offsetTop;
+            var oldX = e.clientX;
+            var oldY = e.clientY;
+            var chatWidth = oDiv.offsetWidth;
+            var chatHeight = oDiv.offsetHeight;
+            var chatMinWidth = Number(thisBlock.css('min-width').split('px')[0]);
+            var chatMinHeight = Number(thisBlock.css('min-height').split('px')[0]);
+            $.extend(document, {'move': true, 'call_down': function(ev) {
+                ev = ev || event;
+                ev.preventDefault()?ev.preventDefault():returnValue=false;
+                if (disX <= 10) { // 左
+                    if(ev.clientX <= 0){
+                        ev.clientX = 0;
+                    }
+                    oDiv.style.width = oDiv.offsetWidth - (ev.clientX - oldX) + 'px';
+                    if(oDiv.offsetWidth <= chatMinWidth){
+                        ev.clientX = e.clientX + chatWidth - chatMinWidth;
+                    }
+                    oDiv.style.left = oDiv.offsetLeft + (ev.clientX - oldX) + 'px';
+                } else if (disX >= (oDiv.offsetWidth - 10)) { // 右
+                    if(ev.clientX >= $(window).width()){
+                        ev.clientX = $(window).width();
+                    }
+                    oDiv.style.width = oDiv.offsetWidth + (ev.clientX - oldX) + 'px';
+                    if(oDiv.offsetWidth <= chatMinWidth){
+                        ev.clientX = e.clientX - chatWidth + chatMinWidth;
+                    }
+                    disX = ev.clientX - oDiv.offsetLeft;
+                }
+                if (disY <= 10) { // 上
+                    if(ev.clientY <= 0){
+                        ev.clientY = 0;
+                    }
+                    oDiv.style.height = oDiv.offsetHeight - (ev.clientY - oldY) + 'px';
+                    if(oDiv.offsetHeight <= chatMinHeight){
+                        ev.clientY = e.clientY + chatHeight - chatMinHeight;
+                    }
+                    oDiv.style.top = oDiv.offsetTop + (ev.clientY - oldY) + 'px';
+                } else if (disY >= (oDiv.offsetHeight - 10)) { // 下
+                    if(ev.clientY >= $(window).height()){
+                        ev.clientY = $(window).height();
+                    }
+                    oDiv.style.height = oDiv.offsetHeight + (ev.clientY - oldY) + 'px';
+                    if(oDiv.offsetHeight <= chatMinHeight){
+                        ev.clientY = e.clientY - chatHeight + chatMinHeight;
+                    }
+                    disY = ev.clientY - oDiv.offsetTop;
+                }
+                oldX = ev.clientX;
+                oldY = ev.clientY;
+            }});
+        })
+            
+        $('.border').onmouseup = function () {
+            document.onmouseup = document.onmousemove = null;
+        }
+
+    </script>
+
+</body>
+</html>
