@@ -59,7 +59,10 @@ fn.bind(obj, 1, 2); // 改变fn中的this，fn并不执行
 this改变为obj了，但是绑定的时候立即执行，当触发点击事件的时候执行的是fn的返回值undefined
 document.onclick = fn.call(obj);
 ```
-````
+```
 bind会把fn中的this预处理为obj，此时fn没有执行，当点击的时候才会把fn执行
 document.onclick = fn.bind(obj);
+```
+```
+bind
 ```
